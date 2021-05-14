@@ -1,0 +1,38 @@
+[
+    {
+        "_id": "1",
+        "email": "test@testing.com",
+        "name": "test",
+        "password": "123456",
+        "orders": [
+            {
+                "bookId": "b1",
+                "bookPrice": "2341",
+                "purchaseDate": "25/01/2021"
+            },
+            {
+                "bookId": "b5",
+                "bookPrice": "2341",
+                "purchaseDate": "25/01/2021"
+            }
+        ]
+    },
+    {
+        "_id": "2",
+        "email": "richardsouzarodrigues555@gmail.com",
+        "name": "Richard",
+        "password": "123456",
+        "orders": [
+            {
+                "bookId": "b1",
+                "bookPrice": "2341",
+                "purchaseDate": "25/01/2021"
+            },
+            {
+                "bookId": "b5",
+                "bookPrice": "2341",
+                "purchaseDate": "25/01/2021"
+            }
+        ]
+    }
+]

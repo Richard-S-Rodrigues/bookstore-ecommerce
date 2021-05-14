@@ -1,0 +1,20 @@
+[
+    {
+        "_id": "2",
+        "title": "Clean Code",
+        "author": "Robert C. Martin",
+        "price": "123",
+        "isbn": "023112432",
+        "publisher": "I forgot",
+        "image": ""
+    },
+    {
+        "_id": "2",
+        "title": "Some untitled book",
+        "author": "Richard",
+        "price": "10000",
+        "isbn": "023112432",
+        "publisher": "Whatever",
+        "image": ""
+    }
+]
