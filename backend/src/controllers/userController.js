@@ -1,55 +1,77 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const User = require("../models/user");
 
+const secret = "test";
+
 module.exports = {
-    // Login with GET request
-    index(request, response) {
-        const { user } = request;
-
-        if (!user) {
-            return response.status(400).json({
-                error: "User not found",
-            });
-        }
-
-        response.status(200).json({
-            user,
-        });
-    },
-
-    async signup(request, response, next) {
-        const { email, username, password } = request.body;
-
-        const newUser = new User({ email, username, password });
+    async signup(req, res) {
+        const { email, password, username } = req.body;
 
         try {
-            await newUser.save();
+            const userExists = await User.findOne({ email });
 
-            response.status(201).json(newUser);
-        } catch (error) {
-            response.status(400).json({
-                message: error.message,
+            if (userExists) {
+                return res
+                    .status(400)
+                    .json({ message: "User already exists!" });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 12);
+
+            const user = await User.create({
+                email,
+                password: hashedPassword,
+                username,
             });
+
+            const token = jwt.sign(
+                { email: user.email, id: user._id },
+                secret,
+                { expiresIn: "1h" }
+            );
+
+            res.status(201).json({ user, token });
+        } catch (error) {
+            res.status(500).json({ message: "Something went wrong" });
+
+            console.log(error);
         }
     },
-    // Login with POST request
-    login(request, response, next) {
-        request.session.save((err) => {
-            if (err) {
-                return next(err);
+
+    async signin(req, res) {
+        const { email, password } = req.body;
+
+        try {
+            const userExists = await User.findOne({ email });
+
+            if (!userExists) {
+                return res.status(404).json({ message: "User not found!" });
             }
 
-            response.redirect("/");
-        });
-    },
+            const isPasswordCorrect = await bcrypt.compare(
+                password,
+                userExists.password
+            );
 
-    logout(request, response, next) {
-        request.logout();
-        request.session.save((err) => {
-            if (err) {
-                return next(err);
+            if (!isPasswordCorrect) {
+                return res
+                    .status(400)
+                    .json({ message: "Invalid credentials!" });
             }
 
-            res.redirect("/");
-        });
+            const token = jwt.sign(
+                { email: userExists.email, id: userExists._id },
+                secret,
+                { expiresIn: "1h" }
+            );
+
+            res.status(200).json({ user: userExists, token });
+        } catch (error) {
+            res.status(500).json({ message: "Something went wrong" });
+
+            console.log(error);
+        }
     },
 };

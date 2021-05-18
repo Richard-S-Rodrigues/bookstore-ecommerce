@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Books = require("../models/books");
+const Books = require("../models/book");
 
 module.exports = {
     async find(request, response) {
@@ -8,9 +8,11 @@ module.exports = {
 
             response.status(200).json(books);
         } catch (error) {
-            response.status(400).json({
-                message: error.message,
+            response.status(500).json({
+                message: "Something went wrong!",
             });
+
+            console.log(error);
         }
     },
 
@@ -25,9 +27,11 @@ module.exports = {
             }
             response.status(200).json(book);
         } catch (error) {
-            response.status(400).json({
-                message: error.message,
+            response.status(500).json({
+                message: "Something went wrong!",
             });
+
+            console.log(error);
         }
     },
 
@@ -48,13 +52,15 @@ module.exports = {
 
             response.status(201).json(newBook);
         } catch (error) {
-            response.status(400).json({
-                message: error.message,
+            response.status(500).json({
+                message: "Something went wrong!",
             });
+
+            console.log(error);
         }
     },
 
-    async delete(request, response) {
+    async remove(request, response) {
         const { id } = request.params;
 
         try {
@@ -83,9 +89,11 @@ module.exports = {
 
             response.json(updatedData);
         } catch (error) {
-            response.status(404).json({
-                message: error.message,
+            response.status(500).json({
+                message: "Something went wrong!",
             });
+
+            console.log(error);
         }
     },
 };
