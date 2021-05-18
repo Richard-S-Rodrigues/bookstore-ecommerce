@@ -2,19 +2,28 @@ const mongoose = require("mongoose");
 const Books = require("../models/books");
 
 module.exports = {
-    async get(request, response) {
-        const { id } = request.params;
-
+    async find(request, response) {
         try {
-            if (id) {
-                const book = await Books.findById(id);
-
-                response.status(200).json(book);
-            }
-
             const books = await Books.find();
 
             response.status(200).json(books);
+        } catch (error) {
+            response.status(400).json({
+                message: error.message,
+            });
+        }
+    },
+
+    async findOne(request, response) {
+        const { id } = request.params;
+
+        try {
+            const book = await Books.findById(id);
+
+            if (!book) {
+                return response.status(404).json("Book not found!");
+            }
+            response.status(200).json(book);
         } catch (error) {
             response.status(400).json({
                 message: error.message,
@@ -48,14 +57,35 @@ module.exports = {
     async delete(request, response) {
         const { id } = request.params;
 
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return response.status(404).send("Book not found!");
+        try {
+            await Books.findByIdAndRemove(id);
+
+            response.status(201).json({
+                message: "Book deleted successfully",
+            });
+        } catch (error) {
+            response.status(404).json({
+                message: "Book not found!",
+            });
         }
+    },
 
-        await Books.findByIdAndRemove(id);
+    async update(request, response) {
+        const { id } = request.params;
+        const newData = request.body;
 
-        response.status(201).json({
-            message: "Book deleted successfully",
-        });
+        try {
+            const data = await Books.findById(id);
+
+            const updatedData = Object.assign(data, newData);
+
+            await Books.findByIdAndUpdate(id, updatedData);
+
+            response.json(updatedData);
+        } catch (error) {
+            response.status(404).json({
+                message: error.message,
+            });
+        }
     },
 };

@@ -3,16 +3,13 @@ const passport = require("passport");
 const routes = express.Router();
 
 const booksController = require("./controllers/booksController");
-const cartController = require("./controllers/cartController");
 const userController = require("./controllers/userController");
 
-routes.get("/books", booksController.get);
-routes.get("/books/:id", booksController.get);
+routes.get("/books", booksController.find);
+routes.get("/books/:id", booksController.findOne);
 routes.post("/books", booksController.create);
 routes.delete("/books/:id", booksController.delete);
-
-routes.get("/cart", cartController.index);
-routes.post("/cart/new", cartController.create);
+routes.patch("/books/:id", booksController.update);
 
 routes.post("/signup", userController.signup);
 routes.post(
