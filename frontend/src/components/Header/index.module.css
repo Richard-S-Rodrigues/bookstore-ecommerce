@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1em;
+}
+
+.navContainer nav {
+  display: flex;
+}
+
+.navContainer nav a {
+  margin-left: 1em;
+
+  color: #0071bc;
+  text-decoration: none;
+}
+
+.navContainer nav a:hover {
+  text-decoration: underline;
+}
+
+.navContainer nav p {
+  margin-left: 1em;
+}

@@ -1,17 +1,13 @@
-import { useEffect } from "react";
+import Routes from "./Routes";
 
-import api from "./services/api";
+import "./global.css";
 
 function App() {
-  const getData = async () => {
-    const response = await api.get("/new");
-    console.log(response);
-  };
-  useEffect(() => {
-    getData();
-  }, []);
-
-  return <div></div>;
+    return (
+        <div>
+            <Routes />
+        </div>
+    );
 }
 
 export default App;
