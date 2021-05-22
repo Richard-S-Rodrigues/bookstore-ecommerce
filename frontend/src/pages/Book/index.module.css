@@ -1,0 +1,63 @@
+.container {
+  width: 100%;
+}
+
+.container main {
+  display: block;
+  width: 90%;
+  margin: 1.5em;
+}
+
+.infoContainer {
+  display: flex;
+
+  border-bottom: 1px solid #ddd;
+
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+
+.imgContainer img {
+  width: 18em;
+}
+
+.info {
+  margin-left: 1em;
+  width: 100%;
+}
+
+.productDetails {
+  border-top: 1px solid #ddd;
+  width: 100%;
+
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
+.productDetails ul {
+  margin: 0.8em;
+}
+
+.textBold {
+  font-weight: bold;
+
+  margin-right: 1em;
+}
+
+.formContainer {
+  margin-top: 2em;
+}
+
+.formContainer form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formContainer form input {
+  width: 80%;
+  margin-bottom: 1em;
+}
+
+.formContainer form button {
+  width: 14em;
+}

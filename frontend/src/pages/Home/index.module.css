@@ -11,4 +11,8 @@
 .booksContainer {
   margin-top: 4em;
   margin-left: 2em;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  grid-gap: 0.8em;
 }

@@ -12,3 +12,35 @@ input,
 html {
   font-family: "Inter", sans-serif;
 }
+
+li {
+  list-style: none;
+
+  margin-bottom: 0.6em;
+}
+
+p {
+  line-height: 1.5em;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+.button {
+  background: #115f82;
+  color: #fff;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  padding: 0.8em 1.5em;
+
+  text-decoration: none;
+}
+
+.button:hover {
+  color: #0c435c;
+}

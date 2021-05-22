@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
+import BookList from "../../components/BookList";
 
 import api from "../../services/api";
 
@@ -22,14 +23,7 @@ const Home = () => {
                 <h2>Books</h2>
             </section>
             <section className={styles.booksContainer}>
-                {books.map((book) => (
-                    <div key={book._id}>
-                        <img src={book.image} alt={book.title} />
-                        <h3>{book.title}</h3>
-                        <p>{book.price}</p>
-                        <Link to="/">View Details</Link>
-                    </div>
-                ))}
+                <BookList books={books} />
             </section>
         </main>
     );

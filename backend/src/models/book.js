@@ -6,6 +6,8 @@ const booksSchema = new Schema({
     author: { type: String, required: true },
     price: { type: String, required: true },
     isbn: { type: String, required: true },
+    pagesNumber: { type: String, required: true },
+    description: { type: String },
     publisher: { type: String, required: true },
     image: { type: String },
 });

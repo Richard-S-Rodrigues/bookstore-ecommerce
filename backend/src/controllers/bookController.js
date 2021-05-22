@@ -36,13 +36,24 @@ module.exports = {
     },
 
     async create(request, response) {
-        const { title, author, price, isbn, publisher, image } = request.body;
+        const {
+            title,
+            author,
+            price,
+            isbn,
+            pagesNumber,
+            description,
+            publisher,
+            image,
+        } = request.body;
 
         const newBook = new Books({
             title,
             author,
             price,
             isbn,
+            pagesNumber,
+            description,
             publisher,
             image,
         });
