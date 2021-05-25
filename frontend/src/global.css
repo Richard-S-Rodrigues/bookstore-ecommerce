@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background: #e8e8e8;
+}
+
 body,
 input,
 html {

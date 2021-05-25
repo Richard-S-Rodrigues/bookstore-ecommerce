@@ -1,0 +1,48 @@
+.container main {
+  background: #fff;
+
+  display: flex;
+  width: 50%;
+  margin: 0 auto;
+  padding: 2em 4em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container main header {
+  width: 100%;
+  text-align: center;
+}
+
+.container main form {
+  width: 100%;
+  margin-top: 1em;
+
+  display: block;
+}
+
+.container main form div {
+  display: block;
+  margin-bottom: 1em;
+}
+
+.container main form div input {
+  width: 100%;
+}
+
+.actionContainer button {
+  width: 100%;
+  background: #115f82;
+  color: #fff;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  padding: 0.8em 1.5em;
+}
+
+.actionContainer button:hover {
+  color: #0c435c;
+}
