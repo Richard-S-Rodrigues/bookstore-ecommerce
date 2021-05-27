@@ -26,13 +26,7 @@ module.exports = {
                 username,
             });
 
-            const token = jwt.sign(
-                { email: user.email, id: user._id },
-                secret,
-                { expiresIn: "1h" }
-            );
-
-            res.status(201).json({ user, token });
+            res.status(201).json({ user });
         } catch (error) {
             res.status(500).json({ message: "Something went wrong" });
 

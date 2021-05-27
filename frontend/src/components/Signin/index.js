@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { login } from "../../services/api";
+
 import styles from "./index.module.css";
 
 const Signin = () => {
@@ -21,6 +23,8 @@ const Signin = () => {
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
+
+        login({ email, password });
     };
     return (
         <div className={styles.container}>
