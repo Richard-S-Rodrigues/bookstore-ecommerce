@@ -1,9 +1,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const jwtDecode = require("jwt-decode");
 
 const User = require("../models/user");
 
-const secret = "test";
+const secret = process.env.JWT_SECRET;
 
 module.exports = {
     async signup(req, res) {
@@ -61,7 +62,25 @@ module.exports = {
                 { expiresIn: "1h" }
             );
 
-            res.status(200).json({ user: userExists, token });
+            res.status(200).json({ token });
+        } catch (error) {
+            res.status(500).json({ message: "Something went wrong" });
+
+            console.log(error);
+        }
+    },
+
+    async getUser(req, res) {
+        const { token } = req.body;
+        try {
+            const { email } = jwtDecode(token);
+            const userExists = await User.findOne({ email });
+
+            if (!userExists) {
+                return res.status(404).json({ message: "User not found!" });
+            }
+
+            res.status(200).json({ user: userExists });
         } catch (error) {
             res.status(500).json({ message: "Something went wrong" });
 

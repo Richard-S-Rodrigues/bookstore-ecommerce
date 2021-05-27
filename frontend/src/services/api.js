@@ -1,7 +1,18 @@
 import axios from "axios";
+import { getToken } from "./auth";
 
 const api = axios.create({
-    baseURL: "http://localhost:3001/",
+    baseURL: "http://localhost:3001",
+});
+
+api.interceptors.request.use(async (config) => {
+    const token = getToken();
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
 });
 
 export const createUser = async (data) => {
@@ -10,18 +21,6 @@ export const createUser = async (data) => {
     } catch (error) {
         return error.response;
     }
-};
-
-export const login = (data) => {
-    return api
-        .post("/user/signin", data)
-        .then((res) => {
-            console.log(res.data);
-        })
-        .catch((error) => {
-            const { message } = error.response.data;
-            console.log(message);
-        });
 };
 
 export default api;

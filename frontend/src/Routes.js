@@ -1,12 +1,33 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from "react-router-dom";
 
 import Header from "./components/Header";
 
-import Home from "./pages/Home";
-import Book from "./pages/Book";
-import User from "./pages/User";
+import { Home, Book, User, Auth } from "./pages";
 
-import Auth from "./pages/Auth";
+import { isAuthenticated } from "./services/auth";
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+        {...rest}
+        render={(props) =>
+            isAuthenticated() ? (
+                <Component {...props} />
+            ) : (
+                <Redirect
+                    to={{
+                        pathname: "/auth/signin",
+                        state: { from: props.location },
+                    }}
+                />
+            )
+        }
+    />
+);
 
 const Routes = () => {
     return (
@@ -15,7 +36,7 @@ const Routes = () => {
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/book/:id" component={Book} />
-                <Route path="/user" component={User} />
+                <PrivateRoute path="/user" component={User} />
                 <Route path="/auth" component={Auth} />
             </Switch>
         </Router>
