@@ -5,15 +5,23 @@ import styles from "./index.module.css";
 const BookList = ({ books }) =>
     books.map((book) => (
         <div className={styles.container} key={book._id}>
-            <img src={book.image} alt={book.title} />
             <div>
-                <h3>{book.title}</h3>
-                <p>${book.price}</p>
-            </div>
+                <Link to={`/book/${book._id}`} className={styles.imgContainer}>
+                    <img src={book.image} alt={book.title} />
+                </Link>
 
-            <Link to={`/book/${book._id}`} className="button">
-                View Details
-            </Link>
+                <div className={styles.infoContainer}>
+                    <Link to={`/book/${book._id}`}>
+                        <div>
+                            <strong className={styles.bookTitle}>
+                                {book.title}
+                            </strong>
+                        </div>
+                    </Link>
+
+                    <h3>${book.price}</h3>
+                </div>
+            </div>
         </div>
     ));
 

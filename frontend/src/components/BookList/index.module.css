@@ -1,22 +1,38 @@
 .container {
-  width: 95%;
+  width: 90%;
   margin-bottom: 2em;
-}
 
-.container img {
-  width: 15em;
-  height: 20em;
+  border: 1px solid #ddd;
+  border-radius: 0.5em;
 }
 
 .container div {
-  margin: 1em auto;
+  width: 90%;
+  margin: 1em auto auto;
 }
 
-.container div h3 {
-  line-height: 1.3em;
-  font-weight: 600;
+.imgContainer {
+  display: flex;
+  width: 100%;
 }
 
-.container div p {
-  font-size: 18px;
+.imgContainer img {
+  width: inherit;
+}
+
+.infoContainer a div {
+  width: auto;
+}
+
+.infoContainer h3 {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
+
+.bookTitle {
+  color: black;
+  word-wrap: break-word;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left;
 }

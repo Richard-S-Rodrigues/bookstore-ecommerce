@@ -8,13 +8,22 @@
 }
 
 body {
-  background: #e8e8e8;
+  background: #fff;
 }
 
 body,
 input,
 html {
   font-family: "Inter", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #0071bc;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 li {
@@ -30,21 +39,4 @@ p {
 button {
   border: 0;
   cursor: pointer;
-}
-
-.button {
-  background: #115f82;
-  color: #fff;
-
-  font-weight: 600;
-
-  text-align: center;
-
-  padding: 0.8em 1.5em;
-
-  text-decoration: none;
-}
-
-.button:hover {
-  color: #0c435c;
 }

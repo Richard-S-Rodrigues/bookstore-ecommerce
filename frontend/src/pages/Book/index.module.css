@@ -59,5 +59,23 @@
 }
 
 .formContainer form button {
-  width: 14em;
+  width: 15em;
+  background: #0071bc;
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  padding: 0.5em;
+}
+
+@media (max-width: 530px) {
+  .infoContainer {
+    flex-direction: column;
+  }
+
+  .imgContainer,
+  .info {
+    margin: auto;
+  }
 }

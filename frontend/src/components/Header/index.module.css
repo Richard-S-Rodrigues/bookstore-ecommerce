@@ -12,15 +12,21 @@
 
 .navContainer nav a {
   margin-left: 1em;
-
-  color: #0071bc;
-  text-decoration: none;
-}
-
-.navContainer nav a:hover {
-  text-decoration: underline;
 }
 
 .navContainer nav p {
   margin-left: 1em;
+}
+
+@media (max-width: 501px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .navContainer nav a {
+    margin-left: 0.5em;
+  }
+  .navContainer nav p {
+    margin-left: 0.5em;
+  }
 }

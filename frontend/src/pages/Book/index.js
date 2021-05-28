@@ -110,9 +110,7 @@ const Book = (props) => {
                             onChange={onChangeHandler}
                             required="true"
                         />
-                        <button type="submit" className="button">
-                            Add to cart
-                        </button>
+                        <button type="submit">Add to cart</button>
                     </form>
                 </section>
             </main>

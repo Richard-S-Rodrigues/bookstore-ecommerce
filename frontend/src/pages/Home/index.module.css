@@ -1,11 +1,21 @@
 .container {
   width: 100%;
 
+  margin: 0 auto;
   margin-top: 4em;
 }
 
 .titleContainer {
-  text-align: center;
+  width: 90%;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.titleContainer h1 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .booksContainer {

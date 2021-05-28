@@ -20,7 +20,7 @@ const Home = () => {
     return (
         <main className={styles.container}>
             <section className={styles.titleContainer}>
-                <h2>Books</h2>
+                <h1>Latest Books</h1>
             </section>
             <section className={styles.booksContainer}>
                 <BookList books={books} />
