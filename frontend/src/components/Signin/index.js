@@ -8,8 +8,8 @@ import ErrorComponent from "../Error";
 import styles from "./index.module.css";
 
 const Signin = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [userEmail, setUserEmail] = useState("");
+    const [userPassword, setUserPassword] = useState("");
 
     const [error, setError] = useState("");
     const [isError, setIsError] = useState(false);
@@ -18,11 +18,11 @@ const Signin = () => {
         const { name, value } = event.currentTarget;
 
         if (name === "email") {
-            setEmail(value);
+            setUserEmail(value);
         }
 
         if (name === "password") {
-            setPassword(value);
+            setUserPassword(value);
         }
     };
 
@@ -30,13 +30,20 @@ const Signin = () => {
     const onSubmitHandler = async (event) => {
         event.preventDefault();
 
-        const response = await login({ email, password });
+        const response = await login({
+            email: userEmail,
+            password: userPassword,
+        });
+
+        // Pass all necessary data to 'userData'
+        const { password, createdAt, ...userData } = response.data.user;
+        const data = { user: userData, token: response.data.token };
 
         if (response.status !== 200) {
             setError(response.data.message);
             setIsError(true);
         } else {
-            localStorage.setItem("TOKEN_KEY", response.data.token);
+            localStorage.setItem("userInfo", JSON.stringify(data));
             history.push("/user");
         }
     };
@@ -56,7 +63,7 @@ const Signin = () => {
                                 type="email"
                                 name="email"
                                 id="email"
-                                value={email}
+                                value={userEmail}
                                 onChange={onChangeHandler}
                                 required={true}
                             />
@@ -68,7 +75,7 @@ const Signin = () => {
                                 type="password"
                                 name="password"
                                 id="password"
-                                value={password}
+                                value={userPassword}
                                 onChange={onChangeHandler}
                                 required={true}
                             />

@@ -37,7 +37,6 @@ module.exports = {
 
     async signin(req, res) {
         const { email, password } = req.body;
-
         try {
             const userExists = await User.findOne({ email });
 
@@ -62,25 +61,7 @@ module.exports = {
                 { expiresIn: "1h" }
             );
 
-            res.status(200).json({ token });
-        } catch (error) {
-            res.status(500).json({ message: "Something went wrong" });
-
-            console.log(error);
-        }
-    },
-
-    async getUser(req, res) {
-        const { token } = req.body;
-        try {
-            const { email } = jwtDecode(token);
-            const userExists = await User.findOne({ email });
-
-            if (!userExists) {
-                return res.status(404).json({ message: "User not found!" });
-            }
-
-            res.status(200).json({ user: userExists });
+            res.status(200).json({ user: userExists, token });
         } catch (error) {
             res.status(500).json({ message: "Something went wrong" });
 

@@ -1,8 +1,12 @@
 import api from "./api";
 
-export const isAuthenticated = () => localStorage.getItem("TOKEN_KEY") !== null;
+export const isAuthenticated = () => localStorage.getItem("userInfo") !== null;
 
-export const getToken = () => localStorage.getItem("TOKEN_KEY");
+export const getToken = () => {
+    const { token } = JSON.parse(localStorage.getItem("userInfo")) || [];
+
+    return token;
+};
 
 export const login = async (data) => {
     try {
@@ -15,5 +19,5 @@ export const login = async (data) => {
 };
 
 export const logout = () => {
-    localStorage.removeItem("TOKEN_KEY");
+    localStorage.removeItem("userInfo");
 };
