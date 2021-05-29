@@ -11,6 +11,12 @@ body {
   background: #fff;
 }
 
+:root {
+  --blue: #0071bc;
+  --red: #bd1408;
+  --green: #117801;
+}
+
 body,
 input,
 html {
@@ -19,11 +25,19 @@ html {
 
 a {
   text-decoration: none;
-  color: #0071bc;
+  color: var(--blue);
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: 3px;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 li {

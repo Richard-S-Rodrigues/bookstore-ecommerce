@@ -108,7 +108,7 @@ const Book = (props) => {
                             name="quantity"
                             value={quantity}
                             onChange={onChangeHandler}
-                            required="true"
+                            required={true}
                         />
                         <button type="submit">Add to cart</button>
                     </form>
