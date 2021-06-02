@@ -1,11 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import api from "../../services/api";
+import { cartContext } from "../../contexts/cartContext";
 
 import styles from "./index.module.css";
 
 const Book = (props) => {
     const { id } = props.match.params;
+    const { cart, setCart } = useContext(cartContext);
+
+    const [cartData, setCartData] = useState(cart);
+    const [isMounted, setIsMounted] = useState(false);
+
+    const history = useHistory();
+    useEffect(() => {
+        // Save In LocalStorage
+        setCart(cartData);
+
+        if (isMounted) {
+            history.push("/cart");
+        }
+    }, [cartData, isMounted, history, setCart]);
+
+    useEffect(() => {
+        getData(id);
+    }, [id]);
 
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
@@ -38,12 +58,37 @@ const Book = (props) => {
             console.error(error);
         }
     };
-    useEffect(() => {
-        getData(id);
-    }, [id]);
 
     const onChangeHandler = (event) => {
         setQuantity(event.currentTarget.value);
+    };
+
+    const addToCart = () => {
+        const items = cartData;
+
+        const newItem = {
+            productId: id,
+            productName: title,
+            productImage: image,
+            productPrice: price,
+            qty: parseInt(quantity),
+        };
+
+        const productInCart = items.find(
+            (item) => item.productId === newItem.productId
+        );
+
+        if (productInCart) {
+            const updatedItems = Object.assign({
+                ...productInCart,
+                qty: productInCart.qty + newItem.qty,
+            });
+            setCartData(updatedItems);
+        } else {
+            setCartData([newItem, ...items]);
+        }
+
+        setIsMounted(true);
     };
 
     return (
@@ -100,7 +145,10 @@ const Book = (props) => {
                     </div>
                 </section>
                 <section className={styles.formContainer}>
-                    <form method="POST">
+                    <form
+                        method="POST"
+                        onSubmit={(event) => event.preventDefault()}
+                    >
                         <input
                             type="number"
                             min="0"
@@ -110,7 +158,9 @@ const Book = (props) => {
                             onChange={onChangeHandler}
                             required={true}
                         />
-                        <button type="submit">Add to cart</button>
+                        <button type="submit" onClick={addToCart}>
+                            Add to cart
+                        </button>
                     </form>
                 </section>
             </main>

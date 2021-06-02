@@ -36,7 +36,7 @@
 }
 
 .logoutBtn:hover {
-  color: #cfcdcc;
+  color: var(--grey);
 }
 
 .ordersContainer {
@@ -90,7 +90,7 @@
 }
 
 .modalContainer div form button:hover {
-  color: #cfcdcc;
+  color: var(--grey);
 }
 
 .modalContainer div form button:first-child {

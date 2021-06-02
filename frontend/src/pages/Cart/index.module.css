@@ -1,0 +1,124 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 1em;
+}
+
+.itemsContainer div {
+  width: 40em;
+}
+
+.item {
+  width: 100%;
+  display: block;
+  padding: 1em 0;
+}
+
+.item + .item {
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.item div {
+  display: flex;
+}
+
+.item div + div {
+  justify-content: space-around;
+}
+
+.item div div {
+  min-width: 7em;
+  width: auto;
+  height: 6em;
+}
+
+.imgContainer img {
+  width: inherit;
+  height: inherit;
+  border-radius: 0.25rem;
+  object-fit: cover;
+}
+
+.productName a {
+  color: #1a1a1a;
+}
+
+.price {
+  line-height: 1.5;
+  font-weight: 200;
+  letter-spacing: 1px;
+  color: #343a40;
+}
+
+.infoCard {
+  width: 100%;
+  height: auto;
+}
+
+.infoCard div {
+  width: min(20em, 100%);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+}
+
+.infoCard div div {
+  width: 100%;
+
+  padding: 1em;
+}
+
+.infoCard div > div small {
+  margin-top: 1em;
+}
+
+.infoCard div div:last-child {
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.infoCard div div:last-child button {
+  background: var(--blue);
+  color: #fff;
+  text-transform: uppercase;
+  padding: 1em;
+  font-weight: 600;
+  font-size: 16px;
+
+  border-radius: 0.4em;
+}
+
+.infoCard div div:last-child button:hover {
+  color: var(--grey);
+}
+
+@media (max-width: 890px) {
+  .container {
+    display: block;
+  }
+
+  .infoCard div {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 626px) {
+  .item div {
+    display: block;
+  }
+
+  .item div div {
+    height: auto;
+  }
+
+  .item div div + div + div {
+    margin-bottom: 1em;
+  }
+
+  .imgContainer img {
+    height: 20em;
+  }
+}
