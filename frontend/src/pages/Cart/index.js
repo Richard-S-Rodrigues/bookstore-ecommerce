@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { cartContext } from "../../contexts/cartContext";
+import { cartContext } from "../../contexts/CartContext";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 

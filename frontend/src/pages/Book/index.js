@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import api from "../../services/api";
-import { cartContext } from "../../contexts/cartContext";
+import { cartContext } from "../../contexts/CartContext";
 
 import styles from "./index.module.css";
 

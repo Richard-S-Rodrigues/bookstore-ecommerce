@@ -5,7 +5,8 @@ import {
     Redirect,
 } from "react-router-dom";
 
-import CartProvider from "./contexts/cartContext";
+import BooksProvider from "./contexts/BooksContext";
+import CartProvider from "./contexts/CartContext";
 
 import Header from "./components/Header";
 
@@ -33,18 +34,20 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 const Routes = () => {
     return (
-        <CartProvider>
-            <Router>
-                <Header />
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/book/:id" component={Book} />
-                    <PrivateRoute path="/user" component={User} />
-                    <Route path="/auth" component={Auth} />
-                    <Route path="/cart" component={Cart} />
-                </Switch>
-            </Router>
-        </CartProvider>
+        <BooksProvider>
+            <CartProvider>
+                <Router>
+                    <Header />
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route path="/book/:id" component={Book} />
+                        <PrivateRoute path="/user" component={User} />
+                        <Route path="/auth" component={Auth} />
+                        <Route path="/cart" component={Cart} />
+                    </Switch>
+                </Router>
+            </CartProvider>
+        </BooksProvider>
     );
 };
 

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { cartContext } from "../../contexts/cartContext";
+import { cartContext } from "../../contexts/CartContext";
 
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import styles from "./index.module.css";

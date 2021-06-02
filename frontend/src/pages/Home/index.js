@@ -1,21 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+
+import { booksContext } from "../../contexts/BooksContext";
 
 import BookList from "../../components/BookList";
-
-import api from "../../services/api";
 
 import styles from "./index.module.css";
 
 const Home = () => {
-    const [books, setBooks] = useState([]);
-
-    const getData = async () => {
-        const response = await api.get("/books");
-        setBooks(response.data);
-    };
-    useEffect(() => {
-        getData();
-    }, []);
+    const { books } = useContext(booksContext);
 
     return (
         <main className={styles.container}>
