@@ -18,46 +18,42 @@ const CartItems = ({ data, quantityHandler, removeCartItem }) =>
             } = value;
             return (
                 <div key={productId} className={styles.item}>
-                    <div>
-                        <div className={styles.imgContainer}>
-                            <img src={productImage} alt={productName} />
+                    <div className={styles.imgContainer}>
+                        <img src={productImage} alt={productName} />
+                    </div>
+                    <div className={styles.titleAndPriceContainer}>
+                        <div>
+                            <Link to={`/book/${productId}`}>{productName}</Link>
                         </div>
-                        <div className={styles.titleAndPriceContainer}>
-                            <div>
-                                <Link to={`/book/${productId}`}>
-                                    {productName}
-                                </Link>
-                            </div>
-                            <div>${(quantity * productPrice).toFixed(2)}</div>
+                        <div>${(quantity * productPrice).toFixed(2)}</div>
+                    </div>
+
+                    <div className={styles.actionsContainer}>
+                        <div>
+                            <button
+                                type="submit"
+                                onClick={(event) =>
+                                    quantityHandler(event, productId, index)
+                                }
+                            >
+                                -
+                            </button>
+
+                            {quantity}
+
+                            <button
+                                type="submit"
+                                onClick={(event) =>
+                                    quantityHandler(event, productId, index)
+                                }
+                            >
+                                +
+                            </button>
                         </div>
 
-                        <div className={styles.actionsContainer}>
-                            <div>
-                                <button
-                                    type="submit"
-                                    onClick={(event) =>
-                                        quantityHandler(event, productId, index)
-                                    }
-                                >
-                                    -
-                                </button>
-
-                                {quantity}
-
-                                <button
-                                    type="submit"
-                                    onClick={(event) =>
-                                        quantityHandler(event, productId, index)
-                                    }
-                                >
-                                    +
-                                </button>
-                            </div>
-
-                            <span onClick={() => removeCartItem(index)}>
-                                <DeleteIcon />
-                            </span>
-                        </div>
+                        <span onClick={() => removeCartItem(index)}>
+                            <DeleteIcon />
+                        </span>
                     </div>
                 </div>
             );

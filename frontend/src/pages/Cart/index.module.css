@@ -6,8 +6,8 @@
   margin-top: 1em;
 }
 
-.itemsContainer div {
-  width: 40em;
+.itemsContainer {
+  display: block;
 }
 
 .infoCard {
@@ -53,12 +53,36 @@
   color: var(--grey);
 }
 
-@media (max-width: 890px) {
+@media (max-width: 780px) {
   .container {
     display: block;
   }
 
+  .itemsContainer {
+    width: 90%;
+  }
+
   .infoCard div {
     margin-left: 0;
+  }
+}
+
+@media (max-width: 615px) {
+  .container {
+    margin-bottom: 1em;
+  }
+
+  .itemsContainer {
+    width: 100%;
+    margin-bottom: 1em;
+  }
+
+  .infoCard {
+    display: flex;
+    justify-content: center;
+  }
+
+  .infoCard div {
+    margin: 0 auto;
   }
 }

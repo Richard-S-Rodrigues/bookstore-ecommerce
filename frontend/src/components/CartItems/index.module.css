@@ -1,6 +1,6 @@
 .item {
-  width: 100%;
-  display: block;
+  display: flex;
+  justify-content: space-between;
   padding: 1em 0;
 }
 
@@ -9,11 +9,6 @@
 }
 
 .item div {
-  display: flex;
-  justify-content: space-between;
-}
-
-.item div div {
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
   grid-gap: 1.2em;
@@ -52,7 +47,6 @@
 .actionsContainer span {
   cursor: pointer;
   height: 1.5em;
-  float: right;
 }
 
 .actionsContainer div button {
@@ -67,4 +61,26 @@
 
 .actionsContainer div button:hover {
   background: var(--light-blue);
+}
+
+@media (max-width: 562px) {
+  .item {
+    display: block;
+  }
+
+  .item div {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 1em;
+  }
+
+  .titleAndPriceContainer div:first-child {
+    width: 100%;
+  }
+
+  .actionsContainer div {
+    display: flex;
+  }
 }

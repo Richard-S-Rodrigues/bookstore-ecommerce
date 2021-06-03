@@ -54,13 +54,11 @@ const Cart = () => {
     return (
         <main className={styles.container}>
             <section className={styles.itemsContainer}>
-                <div>
-                    <CartItems
-                        data={cartData}
-                        quantityHandler={quantityHandler}
-                        removeCartItem={removeCartItem}
-                    />
-                </div>
+                <CartItems
+                    data={cartData}
+                    quantityHandler={quantityHandler}
+                    removeCartItem={removeCartItem}
+                />
             </section>
             <section className={styles.infoCard}>
                 <div>
