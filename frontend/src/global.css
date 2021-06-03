@@ -13,6 +13,7 @@ body {
 
 :root {
   --blue: #0071bc;
+  --light-blue: #42b0f5;
   --red: #bd1408;
   --green: #117801;
   --grey: #cfcdcc;
@@ -54,4 +55,6 @@ p {
 button {
   border: 0;
   cursor: pointer;
+
+  transition: all 0.6s;
 }

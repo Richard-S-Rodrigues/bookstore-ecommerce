@@ -1,0 +1,70 @@
+.item {
+  width: 100%;
+  display: block;
+  padding: 1em 0;
+}
+
+.item + .item {
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.item div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item div div {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-gap: 1.2em;
+  max-width: 15em;
+  width: auto;
+}
+
+.imgContainer {
+  width: 5em;
+  height: 6em;
+}
+
+.imgContainer img {
+  width: inherit;
+  height: inherit;
+  border-radius: 0.25rem;
+  object-fit: cover;
+}
+
+.titleAndPriceContainer div,
+.actionsContainer div {
+  height: 2em;
+}
+
+.titleAndPriceContainer div:first-child {
+  width: 8em;
+}
+
+.titleAndPriceContainer div:last-child {
+  line-height: 1.5;
+  font-weight: 200;
+  letter-spacing: 1px;
+  color: #343a40;
+}
+
+.actionsContainer span {
+  cursor: pointer;
+  height: 1.5em;
+  float: right;
+}
+
+.actionsContainer div button {
+  background: var(--blue);
+  color: #fff;
+  border-radius: 0.25rem;
+
+  width: 2em;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.actionsContainer div button:hover {
+  background: var(--light-blue);
+}
