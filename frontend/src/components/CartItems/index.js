@@ -6,7 +6,12 @@ import styles from "./index.module.css";
 
 const CartItems = ({ data, quantityHandler, removeCartItem }) =>
     !data.length ? (
-        <p>No items found!</p>
+        <div className={styles.emptyCart}>
+            <h1>Shopping Cart</h1>
+            <p>
+                Your cart is empty! <Link to="/">Go Back!</Link>
+            </p>
+        </div>
     ) : (
         data.map((value, index) => {
             const {

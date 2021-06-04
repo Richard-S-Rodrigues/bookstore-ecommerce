@@ -1,3 +1,7 @@
+.emptyCart {
+  width: 20em;
+}
+
 .item {
   display: flex;
   justify-content: space-between;

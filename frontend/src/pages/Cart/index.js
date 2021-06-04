@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import { cartContext } from "../../contexts/CartContext";
 
@@ -85,7 +86,11 @@ const Cart = () => {
                         </small>
                     </div>
                     <div>
-                        <button>Proceed to checkout</button>
+                        <Link to={cartData.length > 0 ? "/shipping" : "/cart"}>
+                            <button disabled={!cartData.length}>
+                                Proceed to checkout
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </section>
