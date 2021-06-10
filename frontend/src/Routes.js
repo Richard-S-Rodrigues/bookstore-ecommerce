@@ -10,16 +10,7 @@ import CartProvider from "./contexts/CartContext";
 
 import Header from "./components/Header";
 
-import {
-    Home,
-    Book,
-    User,
-    Auth,
-    Cart,
-    Shipping,
-    Payment,
-    PlaceOrder,
-} from "./pages";
+import { Home, Book, User, Auth, Cart, Checkout } from "./pages";
 
 import { isAuthenticated } from "./services/auth";
 
@@ -54,12 +45,7 @@ const Routes = () => {
                         <Route path="/cart" component={Cart} />
 
                         <PrivateRoute path="/user" component={User} />
-                        <PrivateRoute path="/shipping" component={Shipping} />
-                        <PrivateRoute path="/payment" component={Payment} />
-                        <PrivateRoute
-                            path="/placeorder"
-                            component={PlaceOrder}
-                        />
+                        <PrivateRoute path="/checkout" component={Checkout} />
                     </Switch>
                 </Router>
             </CartProvider>

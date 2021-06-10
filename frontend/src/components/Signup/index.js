@@ -43,7 +43,7 @@ const Signup = () => {
 
     return (
         <>
-            {isError && <ErrorComponent errorMessage={error} />}
+            {isError && <ErrorComponent>{error}</ErrorComponent>}
             <div className={styles.container}>
                 <main>
                     <header>

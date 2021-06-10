@@ -1,8 +1,8 @@
 import styles from "./index.module.css";
 
-const ErrorComponent = ({ errorMessage }) => (
+const ErrorComponent = ({ children }) => (
     <div className={styles.container}>
-        <p>{errorMessage}</p>
+        <p>{children}</p>
     </div>
 );
 

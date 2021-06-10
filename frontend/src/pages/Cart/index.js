@@ -86,7 +86,7 @@ const Cart = () => {
                         </small>
                     </div>
                     <div>
-                        <Link to={cartData.length > 0 ? "/shipping" : "/cart"}>
+                        <Link to={cartData.length > 0 ? "/checkout" : "/cart"}>
                             <button disabled={!cartData.length}>
                                 Proceed to checkout
                             </button>

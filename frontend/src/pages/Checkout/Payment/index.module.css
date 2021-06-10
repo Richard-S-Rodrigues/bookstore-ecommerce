@@ -25,20 +25,3 @@
 .methodsContainer div label {
   margin-left: 1em;
 }
-
-.container div form button {
-  margin-top: 2em;
-  background: var(--blue);
-  color: #fff;
-
-  font-size: 16px;
-  font-weight: 600;
-
-  padding: 1em;
-  border-radius: 0.25rem;
-  width: 100%;
-}
-
-.container div form button:hover {
-  color: var(--grey);
-}

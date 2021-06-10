@@ -9,6 +9,7 @@ const app = express();
 
 const bookRouter = require("./routes/bookRouter");
 const userRouter = require("./routes/userRouter");
+const paymentRouter = require("./routes/paymentRouter");
 
 app.use(logger("common"));
 app.use(cors());
@@ -18,9 +19,10 @@ app.disable("x-powered-by");
 
 app.use("/books", bookRouter);
 app.use("/user", userRouter);
+app.use("/checkout", paymentRouter);
 
 const connection_url = `mongodb+srv://admin:${process.env.ATLAS_ADMIN_PASSWORD}@cluster0.yxb3f.mongodb.net/bookstore?retryWrites=true&w=majority`;
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3333;
 
 mongoose
     .connect(connection_url, {

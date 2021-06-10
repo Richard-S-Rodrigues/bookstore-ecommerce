@@ -35,21 +35,21 @@ const Signin = () => {
             password: userPassword,
         });
 
-        // Pass all necessary data to 'userData'
-        const { password, createdAt, ...userData } = response.data.user;
-        const data = { user: userData, token: response.data.token };
-
         if (response.status !== 200) {
             setError(response.data.message);
             setIsError(true);
         } else {
+            // Pass all necessary data to 'userData'
+            const { password, createdAt, ...userData } = response.data.user;
+            const data = { user: userData, token: response.data.token };
+
             localStorage.setItem("userInfo", JSON.stringify(data));
             history.push("/user");
         }
     };
     return (
         <>
-            {isError && <ErrorComponent errorMessage={error} />}
+            {isError && <ErrorComponent>{error}</ErrorComponent>}
             <div className={styles.container}>
                 <main>
                     <header>

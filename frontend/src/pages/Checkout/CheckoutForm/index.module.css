@@ -1,0 +1,20 @@
+.container {
+  margin-top: 2em;
+}
+
+.container button {
+  margin-top: 2em;
+  background: var(--blue);
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  padding: 1em;
+  border-radius: 0.25rem;
+  width: 100%;
+}
+
+.container button:hover {
+  color: var(--grey);
+}

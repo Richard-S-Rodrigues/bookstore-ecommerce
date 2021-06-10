@@ -26,7 +26,10 @@
 }
 
 .container main form div input {
-  width: 100%;
+  padding: 1em;
+  width: min(30em, 90vw);
+  border: 1px solid var(--grey);
+  border-radius: 0.25rem;
 }
 
 .actionContainer button {
