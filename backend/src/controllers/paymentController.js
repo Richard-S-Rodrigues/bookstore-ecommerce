@@ -1,58 +1,24 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-/*Data
-line_items: [{
-    price_data: {
-        currency,
-        product_data: {
-            name: 'name of the product',
-            
-        },
-        unit_amount_decimal
-    },
-    adjustable_quantity: {
-        enabled: false
-    }
-    quantity,
-    tax_rates
-}]*/
-
 module.exports = {
-    async createSession(req, res) {
-        const {
-            client_reference_id,
-            customer_email,
+    async createCheckoutSession(req, res) {
+        const { line_items } = req.body
 
-            line_items,
-        } = req.body;
+        try {
+            const session = await stripe.checkout.sessions.create({
+                payment_method_types: ['card'],
+                line_items,
+                mode: 'payment',
+                success_url: 'http://localhost:3000/success',
+                cancel_url: 'http://localhost:3000/',
+            });
 
-        const session = await stripe.checkout.sessions.create({
-            client_reference_id,
-            customer_email,
-            line_items,
-            payment_method_types: ["card"],
-            success_url: "https://example.com/success",
-            cancel_url: "https://example.com/cancel",
-            mode: "payment",
-            locale: "auto",
-            shipping_address_collection: {
-                allowed_countries: ["BR", "US", "CA"],
-            },
-        });
+            res.json({ id: session.id });
 
-        res.json(session);
-    },
+        } catch(error) {
+            res.status(error.statusCode || 500).json({message: error})
+            console.log(error)
+        }
+    }
 
-    async createOrder(req, res) {
-        const { customer, email, shipping, items } = req.body;
-
-        const order = await stripe.orders.create({
-            currency: "usd",
-            customer,
-            email,
-            shipping,
-            items,
-        });
-        res.json(order);
-    },
 };

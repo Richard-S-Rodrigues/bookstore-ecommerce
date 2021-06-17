@@ -1,21 +1,44 @@
 import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { loadStripe } from '@stripe/stripe-js';
 
 import { cartContext } from "../../contexts/CartContext";
 
 import CartItems from "../../components/CartItems";
 
+import api from '../../services/api'
+
 import styles from "./index.module.css";
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY)
 
 const Cart = () => {
     const { cart, setCart } = useContext(cartContext);
 
     const [cartData, setCartData] = useState(cart);
+    const [lineItems, setLineItems] = useState([])
 
     useEffect(() => {
         // Save In LocalStorage
         setCart(cartData);
     }, [cartData, setCart]);
+
+    useEffect(() => {
+        cart.forEach(item => {
+            setLineItems(items => ([
+                {
+                    price_data: {
+                        currency: 'usd',
+                        product_data: {
+                            name: item.productName
+                        },
+                        unit_amount: Number(item.productPrice) * 100
+                    },
+                    quantity: item.qty
+                },
+                ...items
+            ]))
+        })
+    }, [cart])
 
     const removeCartItem = (index) => {
         const newData = [...cartData];
@@ -52,6 +75,20 @@ const Cart = () => {
         setCartData(data);
     };
 
+    const checkoutHandler = async () => {
+        const stripe = await stripePromise
+
+        const { data: session } = await api.post('/checkout/create-checkout-session', { line_items: lineItems })
+
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.id
+        })
+
+        if (result.error) {
+            console.log(result.error.message)
+        }
+    }
+
     return (
         <main className={styles.container}>
             <section className={styles.itemsContainer}>
@@ -86,11 +123,11 @@ const Cart = () => {
                         </small>
                     </div>
                     <div>
-                        <Link to={cartData.length > 0 ? "/checkout" : "/cart"}>
-                            <button disabled={!cartData.length}>
-                                Proceed to checkout
-                            </button>
-                        </Link>
+                        
+                        <button disabled={!cartData.length} onClick={checkoutHandler}>
+                            Proceed to checkout
+                        </button>
+                        
                     </div>
                 </div>
             </section>

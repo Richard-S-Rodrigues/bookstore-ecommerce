@@ -1,8 +1,8 @@
 const express = require("express");
 const routes = express.Router();
 
-const { createOrder } = require("../controllers/paymentController");
+const { createCheckoutSession } = require("../controllers/paymentController");
 
-routes.post("/create-order", createOrder);
+routes.post("/create-checkout-session", createCheckoutSession);
 
 module.exports = routes;
