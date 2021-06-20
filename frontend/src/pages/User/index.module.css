@@ -1,12 +1,12 @@
 .container {
   display: flex;
   margin: 0 auto;
-  width: 90%;
+  width: 95%;
   margin-top: 2em;
 }
 
 .profileContainer {
-  width: 35%;
+  width: 30%;
 }
 
 .profileContainer div {
@@ -40,9 +40,33 @@
 }
 
 .ordersContainer {
-  width: 60%;
+  width: 70%;
   margin-left: 1em;
 }
+
+.orders {
+  border-top: 1px solid var(--light-grey);
+  margin-top: 1em;
+
+  overflow-x: auto;
+}
+
+.orders table {
+  margin-top: 1em;
+  border: 1px solid var(--light-grey);
+}
+
+.orders table tr th {
+  padding: .5em .5em;
+}
+
+.orders table tr td {
+  width: 28%;
+  border-bottom: 1px solid var(--light-grey);
+
+  padding: 0.5em 1em;
+}
+
 
 .modalContainer {
   width: 100%;
@@ -99,6 +123,33 @@
 
 .modalContainer div form button:last-child {
   background: var(--red);
+}
+
+@media (max-width: 884px) {
+  .container {
+    display: block;
+  }
+
+  .profileContainer,
+  .ordersContainer {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .profileContainer div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logoutBtn {
+    width: 100%;
+  }
+
+  .ordersContainer {
+    margin-top: 2em;
+  }
 }
 
 @media (max-width: 358px) {

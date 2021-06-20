@@ -13,9 +13,11 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY)
 
 const Cart = () => {
     const { cart, setCart } = useContext(cartContext);
+    const { user } = JSON.parse(localStorage.getItem('userInfo'))
 
     const [cartData, setCartData] = useState(cart);
     const [lineItems, setLineItems] = useState([])
+    const [customerId, setCustomerId] = useState('')
 
     useEffect(() => {
         // Save In LocalStorage
@@ -23,7 +25,9 @@ const Cart = () => {
     }, [cartData, setCart]);
 
     useEffect(() => {
-        cart.forEach(item => {
+        setLineItems([])
+        
+        cartData.forEach(item => {
             setLineItems(items => ([
                 {
                     price_data: {
@@ -38,7 +42,24 @@ const Cart = () => {
                 ...items
             ]))
         })
-    }, [cart])
+    }, [cartData])
+
+    
+    useEffect(() => {
+        const getCustomer = async () => {
+            try {
+                const response = await api.post('/stripe/getCustomer', { email: user.email })
+            
+                setCustomerId(response.data.customerId)
+
+            } catch(error) {
+                return;
+            }
+        }
+
+        getCustomer()
+
+    }, [user.email])
 
     const removeCartItem = (index) => {
         const newData = [...cartData];
@@ -78,10 +99,13 @@ const Cart = () => {
     const checkoutHandler = async () => {
         const stripe = await stripePromise
 
-        const { data: session } = await api.post('/checkout/create-checkout-session', { line_items: lineItems })
+        const { data: session } = await api.post('/stripe/create-checkout-session', {
+            lineItems,
+            customerId 
+        })
 
         const result = await stripe.redirectToCheckout({
-            sessionId: session.id
+            sessionId: session.id,
         })
 
         if (result.error) {
@@ -89,6 +113,7 @@ const Cart = () => {
         }
     }
 
+    
     return (
         <main className={styles.container}>
             <section className={styles.itemsContainer}>

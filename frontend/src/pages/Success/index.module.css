@@ -1,0 +1,19 @@
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.container div {
+	display: block;
+}
+
+.container div h1 {
+	color: var(--green);
+	font-size: 3.5rem;
+}
+
+.linksContainer {
+	margin-top: 2em;
+}
+

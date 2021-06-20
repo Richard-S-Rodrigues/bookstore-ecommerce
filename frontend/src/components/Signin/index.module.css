@@ -21,13 +21,14 @@
 }
 
 .container main form div {
-  display: block;
+  display: flex;
+  flex-direction: column;
   margin-bottom: 1em;
 }
 
 .container main form div input {
   padding: 1em;
-  width: min(30em, 90vw);
+  width: 100%;
   border: 1px solid var(--grey);
   border-radius: 0.25rem;
 }

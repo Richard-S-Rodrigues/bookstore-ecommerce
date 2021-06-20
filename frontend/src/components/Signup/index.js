@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import { createUser } from "../../services/api";
+import api, { createUser } from "../../services/api";
 import ErrorComponent from "../Error";
 
 import styles from "./index.module.css";
@@ -10,27 +10,43 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     const [error, setError] = useState("");
     const [isError, setIsError] = useState(false);
 
     const onChangeHandler = (event) => {
         const { name, value } = event.currentTarget;
-
-        if (name === "email") {
-            setEmail(value);
+      
+        switch(name) {
+            case 'email':
+                setEmail(value);
+            break;
+            case 'username':
+                setUsername(value);
+            break;
+            case 'password':
+                setPassword(value);
+            break;
+            case 'confirmPassword':
+                setConfirmPassword(value)
+            break;
+            default:
+                return;
         }
-        if (name === "username") {
-            setUsername(value);
-        }
-        if (name === "password") {
-            setPassword(value);
-        }
+        
     };
 
     const history = useHistory();
     const onSubmitHandler = async (event) => {
         event.preventDefault();
+
+        if (password !== confirmPassword) {
+            setError("'Password' and 'Confirm password' doesn't match!")
+            setIsError(true)
+            return;
+        }
+
         const response = await createUser({ email, password, username });
 
         if (response.status !== 201) {
@@ -38,8 +54,18 @@ const Signup = () => {
             setIsError(true);
         } else {
             history.push("/auth/signin");
+
+            createStripeCustomer()
         }
     };
+
+    const createStripeCustomer = async () => {
+        try {
+            await api.post('/stripe/createCustomer', { email, name: username })
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     return (
         <>
@@ -80,6 +106,17 @@ const Signup = () => {
                                 name="password"
                                 id="password"
                                 value={password}
+                                onChange={onChangeHandler}
+                                required={true}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="confirmPassword">Confirm password:</label>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                id="confirmPassword"
+                                value={confirmPassword}
                                 onChange={onChangeHandler}
                                 required={true}
                             />
