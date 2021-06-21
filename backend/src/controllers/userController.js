@@ -68,4 +68,33 @@ module.exports = {
             console.log(error);
         }
     },
+
+    async get(req, res) {
+        try {
+            const users = await User.find()
+
+            res.json(users)
+        } catch(error) {
+            res.status(500).json({ message: "Something went wrong" });
+            console.log(error);
+        }
+    },
+
+    async update(req, res) {
+        const { id } = req.params
+        const newData = req.body
+
+        try {
+            const data = await User.findById(id)
+
+            const updatedData = Object.assign(data, newData);
+
+            await User.findByIdAndUpdate(id, updatedData)
+
+            res.json(updatedData)
+        } catch(error) {
+            res.status(500).json({ message: "Something went wrong" });
+            console.log(error);   
+        }
+    }
 };

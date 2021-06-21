@@ -56,11 +56,11 @@
   border: 1px solid var(--light-grey);
 }
 
-.orders table tr th {
+.orders table thead tr th {
   padding: .5em .5em;
 }
 
-.orders table tr td {
+.orders table tbody tr td {
   width: 28%;
   border-bottom: 1px solid var(--light-grey);
 

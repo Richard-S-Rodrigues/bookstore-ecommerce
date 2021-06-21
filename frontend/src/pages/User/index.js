@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid'
 
 import api from '../../services/api'
@@ -83,21 +83,24 @@ const User = () => {
                     </div>
                     <div className={styles.orders}>
                         <table>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Price/Quantity</th>
-                                <th>Ordered at</th>
-                            </tr>
-                            {orders.map(order => (
-
-                                <tr key={uuidv4()}>
-                                    <td>{order.productId}</td>
-                                    <td>{order.productName}</td>
-                                    <td>${order.productPrice} / {order.qty}</td>
-                                    <td>{formatDate(order.timestamp)}</td>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price/Quantity</th>
+                                    <th>Ordered at</th>
                                 </tr>
-                            ))}
+                            </thead>
+                            <tbody>
+                                {orders.map(order => (
+                                    <tr key={uuidv4()}>
+                                        <td><Link to={`/book/${order.productId}`}>{order.productId}</Link></td>
+                                        <td>{order.productName}</td>
+                                        <td>${order.productPrice} / {order.qty}</td>
+                                        <td>{formatDate(order.timestamp)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
                         </table>
                     </div>
                 </section>

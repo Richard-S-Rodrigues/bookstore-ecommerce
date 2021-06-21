@@ -11,17 +11,22 @@ const bookRouter = require("./routes/bookRouter");
 const userRouter = require("./routes/userRouter");
 const stripeRouter = require("./routes/stripeRouter");
 const ordersRouter = require("./routes/ordersRouter");
+const adminRouter = require("./routes/adminRouter");
+
+const { verifyToken, isAdmin } = require('./middlewares/auth')
 
 app.use(logger("common"));
 app.use(cors());
 app.use(express.json());
 
+// Disable server info
 app.disable("x-powered-by");
 
 app.use("/books", bookRouter);
 app.use("/user", userRouter);
 app.use("/stripe", stripeRouter);
 app.use("/orders", ordersRouter);
+app.use('/admin', verifyToken, isAdmin, adminRouter)
 
 const connection_url = `mongodb+srv://admin:${process.env.ATLAS_ADMIN_PASSWORD}@cluster0.yxb3f.mongodb.net/bookstore?retryWrites=true&w=majority`;
 const port = process.env.PORT || 3333;
