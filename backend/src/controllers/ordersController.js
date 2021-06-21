@@ -63,5 +63,19 @@ module.exports = {
 			res.status(error.statusCode || 500).json({message: error})
 			console.log(error)
 		}
+	},
+
+	async getAll(req, res) {
+
+		try {
+			const orders = await Orders.find()
+
+			console.log(orders)
+
+			res.json({ orders })
+		} catch(error) {
+			res.status(error.statusCode || 500).json({message: error})
+			console.log(error)
+		}
 	}
 }

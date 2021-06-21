@@ -18,7 +18,8 @@ module.exports = {
 
         jwt.verify(token, secret, (err, user) => {
             if (err) {
-                return res.status(403).json({ message: "Request forbidden!" });
+                console.log(err)
+                return res.status(403).json({ message: err.message || "Request forbidden!" });
             }
 
             req.user = user;

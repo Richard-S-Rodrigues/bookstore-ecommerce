@@ -1,0 +1,58 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.container div {
+	display: flex;
+	margin-top: 1em;
+	width: 95%;
+}
+
+.tableContainer {
+	width: 100%;
+}
+
+.tableContainer div table {
+	border: 1px solid var(--light-grey);
+	border-radius: .25em;
+	display: flex;
+	flex-direction: column;
+
+	padding: 1em;
+}
+
+.tableContainer div table thead tr {
+	display: flex;
+	justify-content: space-between;
+}
+
+.tableContainer div table tbody {
+	margin-top: 1em;
+}
+
+.tableContainer div table tbody tr {
+	display: flex;
+	justify-content: space-between;
+}
+
+.tableContainer div table tbody tr td {
+	padding-bottom: 1em;
+}
+
+.tableContainer div table tbody tr td:first-child {
+	width: 80%;
+}
+
+.chartContainer {
+	width: 100%;
+}
+
+@media (max-width: 751px) {
+	.container div {
+		display: block;
+		width: 100%;
+	}
+}

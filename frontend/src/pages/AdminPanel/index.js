@@ -1,39 +1,62 @@
+import { useEffect } from 'react'
+
+import Charts from './Charts'
+
+import api from '../../services/api'
+
+import styles from './index.module.css'
 
 const AdminPanel = () => {
+
+	const getData = async () => {
+		try {
+			const response = await api.get('/admin/getOrders')
+			console.log(response)
+		} catch(error) {
+			console.log(error)
+		}
+	}
+
+	useEffect(() => {
+		getData()
+	}, [])
+
 	return (
-		<div>
-			<h1>Most Purchased Products</h1>
-			<section>
-				<table>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Name</th>
-							<th>Purchased Quantity</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>60ceaa5615cf9c16bf0fb302</td>
-							<td>Clean Code</td>
-							<td>40</td>
-						</tr>
-						<tr>
-							<td>60ceaa5615cf9c16bf0fb302</td>
-							<td>Clean Architeture</td>
-							<td>40</td>
-						</tr>
-						<tr>
-							<td>60ceaa5615cf9c16bf0fb302</td>
-							<td>Patterns of Enterprise Application Architecture</td>
-							<td>40</td>
-						</tr>
-					</tbody>
-				</table>
-			</section>
-			<section>
-				<h1>GRAPH TO VIZUALIZE MOST PURCHASED BOOKS HERE</h1>
-			</section>
+		<div className={styles.container}>
+			<h2>Most Purchased Products</h2>
+			<div>
+				<section className={styles.tableContainer}>
+					<div>
+						<table>
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Purchased Quantity</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Clean Code</td>
+									<td>40</td>
+								</tr>
+								<tr>
+									<td>Clean Architeture</td>
+									<td>38</td>
+								</tr>
+								<tr>
+									<td>Patterns of Enterprise Application Architecture</td>
+									<td>26</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+				<section className={styles.chartContainer}>
+					<div>
+						<Charts />
+					</div>
+				</section>
+			</div>
 		</div>
 	)
 }
