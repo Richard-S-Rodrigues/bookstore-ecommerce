@@ -10,6 +10,7 @@ const booksSchema = new Schema({
     description: { type: String },
     publisher: { type: String, required: true },
     image: { type: String },
+    ordered_quantity: { type: String, default: "0" },
 });
 
 module.exports = mongoose.model("books", booksSchema);

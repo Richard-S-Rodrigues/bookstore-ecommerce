@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const cookieParser = require('cookie-parser')
 const logger = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -13,10 +14,11 @@ const stripeRouter = require("./routes/stripeRouter");
 const ordersRouter = require("./routes/ordersRouter");
 const adminRouter = require("./routes/adminRouter");
 
-const { verifyToken, isAdmin } = require('./middlewares/auth')
+const { verifyToken, isAdmin, refreshToken } = require('./middlewares/auth')
 
 app.use(logger("common"));
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(express.json());
 
 // Disable server info
@@ -27,6 +29,8 @@ app.use("/user", userRouter);
 app.use("/stripe", stripeRouter);
 app.use("/orders", ordersRouter);
 app.use('/admin', verifyToken, isAdmin, adminRouter)
+
+app.post('/refreshToken', refreshToken)
 
 const connection_url = `mongodb+srv://admin:${process.env.ATLAS_ADMIN_PASSWORD}@cluster0.yxb3f.mongodb.net/bookstore?retryWrites=true&w=majority`;
 const port = process.env.PORT || 3333;

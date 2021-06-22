@@ -27,9 +27,9 @@ const Success = ({ location }) => {
 		}
 	}
 
-	const createOrder = async (cartItems, userEmail) => {
+	const createOrder = (cartItems, userEmail) => {
 		try {
-		   await api.post('/orders/create', { email: userEmail, orders: cartItems })
+		   api.post('/orders/create', { email: userEmail, orders: cartItems })
 
 		   clearCart()
 		} catch(error) {

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import Charts from './Charts'
 
@@ -7,11 +7,13 @@ import api from '../../services/api'
 import styles from './index.module.css'
 
 const AdminPanel = () => {
+	const [orders, setOrders] = useState([])
 
 	const getData = async () => {
 		try {
-			const response = await api.get('/admin/getOrders')
-			console.log(response)
+			const {data: books} = await api.get('/books')
+			
+			console.log(books)
 		} catch(error) {
 			console.log(error)
 		}
@@ -35,6 +37,7 @@ const AdminPanel = () => {
 								</tr>
 							</thead>
 							<tbody>
+
 								<tr>
 									<td>Clean Code</td>
 									<td>40</td>

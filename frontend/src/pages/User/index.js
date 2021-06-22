@@ -81,28 +81,31 @@ const User = () => {
                     <div>
                         <h1>My Orders ({orders.length})</h1>
                     </div>
-                    <div className={styles.orders}>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Price/Quantity</th>
-                                    <th>Ordered at</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orders.map(order => (
-                                    <tr key={uuidv4()}>
-                                        <td><Link to={`/book/${order.productId}`}>{order.productId}</Link></td>
-                                        <td>{order.productName}</td>
-                                        <td>${order.productPrice} / {order.qty}</td>
-                                        <td>{formatDate(order.timestamp)}</td>
+
+                    {orders.length > 0 && (                        
+                        <div className={styles.orders}>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Price/Quantity</th>
+                                        <th>Ordered at</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    {orders.map(order => (
+                                        <tr key={uuidv4()}>
+                                            <td><Link to={`/book/${order.productId}`}>{order.productId}</Link></td>
+                                            <td>{order.productName}</td>
+                                            <td>${order.productPrice} / {order.qty}</td>
+                                            <td>{formatDate(order.timestamp)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}                    
                 </section>
             </main>
             {isModal && (

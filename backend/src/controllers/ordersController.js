@@ -1,16 +1,18 @@
 const mongoose = require("mongoose");
+
 const Orders = require("../models/orders");
+const Books = require('../models/book')
 
 module.exports = {
 	async create(req, res) {
 		const { email, orders } = req.body
 		
-		const timestamp = Date.now()
+		const orderedAt = Date.now()
 		
 		orderList = []
 
 		orders.forEach(orderItem => {
-			orderList.push(Object.assign(orderItem, { timestamp }))
+			orderList.push(Object.assign(orderItem, { orderedAt }))
 		})
 
 		const newOrders = new Orders({
@@ -30,13 +32,16 @@ module.exports = {
 				}
 				
 				orders.forEach(orderItem => {
-					order.orderList.push(Object.assign(orderItem, { timestamp }))
+					order.orderList.push(Object.assign(orderItem, { orderedAt }))
 				})
 
 				await order.save()
+
 			})
-		
-			res.json({ orders })
+			
+			await updateOrderedQuantity(orders)
+
+			return res.json({ message: "Successful order" })
 
 		} catch(error) {
 			res.status(error.statusCode || 500).json({message: error})
@@ -48,34 +53,39 @@ module.exports = {
 		const { email } = req.body
 
 		try {
-			await Orders.findOne({ userEmail: email }, async (err, { orderList }) => {
+			await Orders.findOne({ userEmail: email }, async (err, order) => {
 				if (err) {
 					throw new Error(err)
 				}
 				
-				if (!orderList) {
-					res.status(404).json({ message: 'Orders not found!' })
+				if (!order) {
+					return res.status(404).json({ message: "User didn't make any order" })
+				}
+
+				if (!order.orderList) {
+					return res.status(404).json({ message: 'Orders not found!' })
 				}
 				
-				res.json({ orders: orderList })
+				return res.json({ orders: order.orderList })
 			})
 		} catch(error) {
-			res.status(error.statusCode || 500).json({message: error})
 			console.log(error)
+			return res.status(error.statusCode || 500).json({message: error.message})
 		}
-	},
+	}
+}
 
-	async getAll(req, res) {
 
-		try {
-			const orders = await Orders.find()
+const updateOrderedQuantity = (orders) => {
+	try {
+		orders.forEach(async (order) => {
+			const book = await Books.findById(order.productId)
+			const oldQuantity = Number(book.ordered_quantity)
 
-			console.log(orders)
+			await Books.findByIdAndUpdate(order.productId, { ordered_quantity: oldQuantity + order.qty })
+		})
 
-			res.json({ orders })
-		} catch(error) {
-			res.status(error.statusCode || 500).json({message: error})
-			console.log(error)
-		}
+	} catch(error) {
+		console.log(error)
 	}
 }

@@ -1,10 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const jwtDecode = require("jwt-decode");
 
 const User = require("../models/user");
+const Token = require('../models/tokens')
 
-const secret = process.env.JWT_SECRET;
+const access_secret = process.env.JWT_ACCESS_SECRET;
+const refresh_secret = process.env.JWT_REFRESH_SECRET;
 
 module.exports = {
     async signup(req, res) {
@@ -55,13 +56,45 @@ module.exports = {
                     .json({ message: "Invalid credentials!" });
             }
 
-            const token = jwt.sign(
-                { email: userExists.email, id: userExists._id },
-                secret,
-                { expiresIn: "1h" }
+            const payload = {
+                email: userExists.email,
+                id: userExists._id
+            }
+
+            const accessToken = jwt.sign(
+                payload,
+                access_secret,
+                { expiresIn: process.env.ACCESS_TOKEN_LIFE }
             );
 
-            res.status(200).json({ user: userExists, token });
+            const refreshToken = jwt.sign(
+                payload,
+                refresh_secret,
+                { expiresIn: process.env.REFRESH_TOKEN_LIFE }
+            );
+
+            const newRefreshToken = new Token({
+                userId: userExists._id,
+                jwtToken: refreshToken
+            })
+
+            const userHasToken = await Token.findOne({userId: userExists._id})
+
+            if (userHasToken) {
+                const updatedData = Object.assign(userHasToken, newRefreshToken);
+                await Token.findByIdAndUpdate(userHasToken._id, updatedData)
+            } else {
+
+                // Save new Refresh Token To Database
+                await newRefreshToken.save()
+            }
+
+
+            // Set Access Token To Browser Cookies
+                // SET SECURE: TRUE IN PRODUCTION
+            res.cookie('jwt', accessToken, { httpOnly: true, sameSite: true })
+
+            res.status(200).json({ user: userExists });
         } catch (error) {
             res.status(500).json({ message: "Something went wrong" });
 
