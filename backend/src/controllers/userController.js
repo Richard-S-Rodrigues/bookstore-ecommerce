@@ -81,25 +81,38 @@ module.exports = {
             const userHasToken = await Token.findOne({userId: userExists._id})
 
             if (userHasToken) {
-                const updatedData = Object.assign(userHasToken, newRefreshToken);
-                await Token.findByIdAndUpdate(userHasToken._id, updatedData)
-            } else {
-
-                // Save new Refresh Token To Database
-                await newRefreshToken.save()
+                await Token.deleteOne({ _id: userHasToken._id })
             }
 
+            // Save new Refresh Token To Database
+            await newRefreshToken.save()
 
             // Set Access Token To Browser Cookies
                 // SET SECURE: TRUE IN PRODUCTION
             res.cookie('jwt', accessToken, { httpOnly: true, sameSite: true })
 
-            res.status(200).json({ user: userExists });
+            res.status(200).json({ 
+                user: userExists, 
+                token: {
+                    accessToken,
+                    refreshToken: newRefreshToken.jwtToken
+                } 
+            });
         } catch (error) {
             res.status(500).json({ message: "Something went wrong" });
 
             console.log(error);
         }
+    },
+
+    async signout(req, res) {
+        const refreshToken = req.body.token
+
+        await Token.deleteOne({ jwtToken: refreshToken })
+
+        res.status(204).json({
+            message: "User was successfully signed out"
+        })
     },
 
     async get(req, res) {
@@ -110,6 +123,22 @@ module.exports = {
         } catch(error) {
             res.status(500).json({ message: "Something went wrong" });
             console.log(error);
+        }
+    },
+
+    async remove(req, res) {
+        const { id } = req.params;
+
+        try {
+            await User.findByIdAndRemove(id);
+
+            res.status(201).json({
+                message: "User deleted successfully",
+            });
+        } catch (error) {
+            res.status(404).json({
+                message: "User not found!",
+            });
         }
     },
 

@@ -1,14 +1,24 @@
 const express = require("express");
 const routes = express.Router();
 
-const { get: getUsers, update: updateUser } = require("../controllers/userController");
-const { create, remove, update } = require("../controllers/bookController");
+const { 
+	get: getUsers, 
+	remove: removeUser, 
+	update: updateUser 
+} = require("../controllers/userController");
+
+const { 
+	create: createBook,
+	remove: removeBook, 
+	update: updateBook 
+} = require("../controllers/bookController");
 
 routes.get('/getUsers', getUsers)
 routes.get('/updateUser/:id', updateUser)
+routes.delete("/removeUser/:id", removeUser)
 
-routes.post("/create", create);
-routes.delete("/:id", remove);
-routes.patch("/:id", update);
+routes.post("/createBook", createBook);
+routes.delete("/removeBook/:id", removeBook);
+routes.patch("/updateBook/:id", updateBook);
 
 module.exports = routes

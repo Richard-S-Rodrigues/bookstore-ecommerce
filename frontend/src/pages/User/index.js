@@ -25,7 +25,7 @@ const User = () => {
     const getOrders = async (email) => {
         try {
             const response = await api.post('/orders/get', { email })
-
+            
             setOrders(response.data.orders)
 
         } catch(error) {
@@ -99,7 +99,7 @@ const User = () => {
                                             <td><Link to={`/book/${order.productId}`}>{order.productId}</Link></td>
                                             <td>{order.productName}</td>
                                             <td>${order.productPrice} / {order.qty}</td>
-                                            <td>{formatDate(order.timestamp)}</td>
+                                            <td>{formatDate(order.orderedAt)}</td>
                                         </tr>
                                     ))}
                                 </tbody>

@@ -6,6 +6,13 @@ const api = axios.create({
     baseURL: "http://localhost:3333",
 });
 
+api.interceptors.request.use((config) => {
+    
+    return config;
+}, (error) => {
+    return Promise.reject(error)
+})
+
 export const createUser = async (data) => {
     try {
         return await api.post("/user/signup", data);

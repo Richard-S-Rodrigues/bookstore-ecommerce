@@ -1,0 +1,197 @@
+.container main {
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+	margin: 1em auto;
+}
+
+.searchBoxContainer {
+	margin-bottom: 1em;
+}
+
+.searchBoxContainer input {
+	width: 25em;
+
+	padding: 0.6em;
+
+	border: 1px solid var(--light-grey);
+	border-radius: 0.25rem;
+}
+
+.searchBoxContainer button {
+	margin-left: 1em;
+
+	background: var(--green);
+	color: #fff;
+
+	border-radius: 0.25rem;
+	padding: 0.6em;
+
+	font-weight: 600;
+}
+
+.booksContainer {
+	width: 100%;
+}
+
+.booksContainer h2,
+.usersContainer h2 {
+	margin-bottom: 1em;
+}
+
+.booksContainer ul,
+.usersContainer ul {
+	max-height: 70vh;
+	overflow-y: auto;
+}
+
+.booksContainer ul li,
+.usersContainer ul li {
+	border: 1px solid var(--light-grey);
+	display: flex;
+	justify-content: space-between;
+	padding: 1em;
+}
+
+.nameContainer {
+	max-width: 20em;
+}
+
+.actionsContainer {
+	display: flex;
+	justify-content: space-between;
+	
+	width: 7em;
+	max-width: 10em;
+}
+
+.actionsContainer button {
+	color: #fff;
+	font-weight: 600;
+
+	padding: 0.5em;
+	border-radius: 0.25rem;
+}
+
+.actionsContainer button[name="editBtn"] {
+	background: var(--blue);
+}
+
+.actionsContainer button[name="deleteBtn"] {
+	background: var(--red);
+}
+
+.usersContainer {
+	width: 100%;
+	margin-left: 1em;
+}
+
+
+.modalContainer {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  background-color: rgba(0, 0, 0, 0.7);
+
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.5s;
+}
+
+.modalContainer div {
+  background: #fff;
+  width: min(90%, 34em);
+  height: 10em;
+  max-height: 100vh;
+
+  padding: 2em;
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+
+.confirmDeleteForm {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 1em;
+}
+
+.confirmDeleteForm button {
+  font-weight: 600;
+  border-radius: 0.25rem;
+  padding: 1em;
+  width: 10em;
+  color: #fff;
+}
+
+.confirmDeleteForm button[name="delete"] {
+	background: var(--green);
+}
+
+.confirmDeleteForm button[name="cancel"] {
+	background: var(--red);
+}
+
+@media (max-width: 848px) {
+	.container main {
+		display: block;
+	}
+
+	.usersContainer {
+		margin-left: 0;
+		margin-top: 1.5em;
+	}
+}
+
+@media (max-width: 516px) {
+	.booksContainer ul li,
+	.usersContainer ul li {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.nameContainer {
+		text-align: center;
+	}
+
+	.actionsContainer {
+		width: 8em;
+		margin-top: 1em;
+	}
+}
+
+@media (max-width: 422px) {
+	.searchBoxContainer {
+		flex-direction: column;
+		text-align: center;
+	}
+
+	.searchBoxContainer button {
+		margin: 1em 0;
+		width: 12em;
+	}
+}
+
+@media (max-width: 312px) {
+	.booksContainer ul li,
+	.usersContainer ul li {
+		flex-direction: column;
+		justify-content: left;
+		align-items: flex-start;
+	}
+
+	.nameContainer {
+		text-align: left;
+	}
+}

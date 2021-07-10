@@ -41,7 +41,7 @@ const Signin = () => {
         } else {
             // Pass all necessary data to 'userData'
             const { password, createdAt, ...userData } = response.data.user;
-            const data = { user: userData, token: response.data.token };
+            const data = { user: userData };
 
             localStorage.setItem("userInfo", JSON.stringify(data));
             history.push("/user");

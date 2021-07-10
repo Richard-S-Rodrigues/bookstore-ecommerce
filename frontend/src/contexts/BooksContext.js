@@ -5,18 +5,29 @@ import api from "../services/api";
 export const booksContext = createContext([]);
 
 const BooksProvider = ({ children }) => {
-    const [books, setBooks] = useState([]);
+    const [booksData, setBooksData] = useState([]);
 
-    const getData = async () => {
-        const response = await api.get("/books");
-        setBooks(response.data);
+    const getBooks = async () => {
+        try {
+            const response = await api.get("/books");
+            return response.data;  
+        } catch(error) {
+            return []
+        }
+    }
+
+    const setBooks = async () => {
+        const books = await getBooks()
+        setBooksData(books);
     };
+
     useEffect(() => {
-        getData();
+        setBooks()
     }, []);
 
+
     return (
-        <booksContext.Provider value={{ books }}>
+        <booksContext.Provider value={{ books: booksData, setBooks, getBooks }}>
             {children}
         </booksContext.Provider>
     );

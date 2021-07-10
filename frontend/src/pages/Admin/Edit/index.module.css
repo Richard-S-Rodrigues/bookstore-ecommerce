@@ -1,0 +1,30 @@
+.editForm {
+	height: 100%;
+}
+
+.editContainer {
+	
+}
+
+.editActionsContainer {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 1em;
+}
+
+.editActionsContainer button {
+  font-weight: 600;
+  border-radius: 0.25rem;
+  padding: 1em;
+  width: 10em;
+  color: #fff;
+}
+
+.editActionsContainer button[name="save"] {
+	background: var(--green);
+}
+
+.editActionsContainer button[name="cancel"] {
+	background: var(--red);
+}

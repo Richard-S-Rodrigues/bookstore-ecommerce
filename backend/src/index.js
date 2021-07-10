@@ -14,7 +14,8 @@ const stripeRouter = require("./routes/stripeRouter");
 const ordersRouter = require("./routes/ordersRouter");
 const adminRouter = require("./routes/adminRouter");
 
-const { verifyToken, isAdmin, refreshToken } = require('./middlewares/auth')
+const { verifyToken, isAdmin } = require('./middlewares/auth')
+const refreshToken = require("./controllers/refreshTokenController")
 
 app.use(logger("common"));
 app.use(cookieParser());
@@ -26,8 +27,8 @@ app.disable("x-powered-by");
 
 app.use("/books", bookRouter);
 app.use("/user", userRouter);
-app.use("/stripe", stripeRouter);
-app.use("/orders", ordersRouter);
+app.use("/stripe", verifyToken, stripeRouter);
+app.use("/orders", verifyToken, ordersRouter);
 app.use('/admin', verifyToken, isAdmin, adminRouter)
 
 app.post('/refreshToken', refreshToken)
