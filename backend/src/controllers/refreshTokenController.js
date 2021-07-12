@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken")
 const Token = require("../models/tokens")
 
-module.exports = {
-	async set(req, res) {
+refreshTokenController = async (req, res) => {
 		const refreshToken = req.body.token
 		const isTokenInDatabase = await Token.findOne({ jwtToken: refreshToken })
 
@@ -34,11 +33,6 @@ module.exports = {
 			console.log("error: ", err)
 			return res.status(403).json({ message: err.message || "Request forbidden!" });
 		}
-	},
-	async get(req, res) {
-		const accessToken = req.cookies.jwt
-
-		return res.json(accessToken)
-	}
 }
 
+module.exports = refreshTokenController;

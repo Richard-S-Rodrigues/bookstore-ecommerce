@@ -31,8 +31,7 @@ app.use("/stripe", verifyToken, stripeRouter);
 app.use("/orders", verifyToken, ordersRouter);
 app.use('/admin', verifyToken, isAdmin, adminRouter)
 
-app.post('/refreshToken', refreshToken.set)
-app.get('/getRefreshToken', refreshToken.get)
+app.post('/refreshToken', refreshToken)
 
 const connection_url = `mongodb+srv://admin:${process.env.ATLAS_ADMIN_PASSWORD}@cluster0.yxb3f.mongodb.net/bookstore?retryWrites=true&w=majority`;
 const port = process.env.PORT || 3333;
