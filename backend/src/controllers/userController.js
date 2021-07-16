@@ -4,8 +4,12 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Token = require('../models/tokens')
 
-const access_secret = process.env.JWT_ACCESS_SECRET;
-const refresh_secret = process.env.JWT_REFRESH_SECRET;
+const { 
+    JWT_ACCESS_SECRET, 
+    JWT_REFRESH_SECRET,
+    ACCESS_TOKEN_LIFE,
+    REFRESH_TOKEN_LIFE 
+} = require("../config")
 
 module.exports = {
     async signup(req, res) {
@@ -37,7 +41,8 @@ module.exports = {
     },
 
     async signin(req, res) {
-        const { email, password } = req.body;
+        const { email, password: requestPassword } = req.body;
+
         try {
             const userExists = await User.findOne({ email });
 
@@ -46,7 +51,7 @@ module.exports = {
             }
 
             const isPasswordCorrect = await bcrypt.compare(
-                password,
+                requestPassword,
                 userExists.password
             );
 
@@ -63,19 +68,13 @@ module.exports = {
 
             const accessToken = jwt.sign(
                 payload,
-                access_secret,
-                { expiresIn: process.env.ACCESS_TOKEN_LIFE }
-            );
-
-            const refreshToken = jwt.sign(
-                payload,
-                refresh_secret,
-                { expiresIn: process.env.REFRESH_TOKEN_LIFE }
+                JWT_ACCESS_SECRET,
+                { expiresIn: ACCESS_TOKEN_LIFE }
             );
 
             const newRefreshToken = new Token({
                 userId: userExists._id,
-                jwtToken: refreshToken
+                expiryDate: new Date(Date.now() + REFRESH_TOKEN_LIFE)
             })
 
             const userHasToken = await Token.findOne({userId: userExists._id})
@@ -87,15 +86,20 @@ module.exports = {
             // Save new Refresh Token To Database
             await newRefreshToken.save()
 
+            await addNewTokenToUser(userExists, newRefreshToken._id)
+
             // Set Access Token To Browser Cookies
                 // SET SECURE: TRUE IN PRODUCTION
             res.cookie('jwt', accessToken, { httpOnly: true, sameSite: true })
 
+            // Remove unnecessary data
+            const { role, password, createdAt, token, ...user } = userExists._doc;
+
             res.status(200).json({ 
-                user: userExists, 
+                user, 
                 token: {
                     accessToken,
-                    refreshToken: newRefreshToken.jwtToken
+                    refreshToken: newRefreshToken
                 } 
             });
         } catch (error) {
@@ -115,7 +119,24 @@ module.exports = {
         })
     },
 
-    async get(req, res) {
+    async getUser(req, res) {
+        const { userId } = req.body;
+
+        try {
+            const user = await User.findById(userId);
+
+            if (!user) {
+                throw new Error("User not found!");
+            }
+
+            return res.json(user);
+        } catch(error) {
+            res.status(500).json({ message: "Something went wrong" });
+            console.log(error);
+        }
+    },
+
+    async getAllUsers(req, res) {
         try {
             const users = await User.find()
 
@@ -160,3 +181,12 @@ module.exports = {
         }
     }
 };
+
+async function addNewTokenToUser(user, token) {
+    const updatedData = {
+        user,
+        token
+    }
+
+    await User.findByIdAndUpdate(user._id, updatedData)
+}

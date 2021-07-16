@@ -2,7 +2,7 @@ const express = require("express");
 const routes = express.Router();
 
 const { 
-	get: getUsers, 
+	getAllUsers: getUsers, 
 	remove: removeUser, 
 	update: updateUser 
 } = require("../controllers/userController");

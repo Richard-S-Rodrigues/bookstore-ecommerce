@@ -3,7 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid'
 
 import api from '../../services/api'
-import { logout } from "../../services/auth";
+import { logout, getTokenFromUserDatabase } from "../../services/auth";
 
 import styles from "./index.module.css";
 
@@ -14,13 +14,22 @@ const User = () => {
 
     const [isModal, setIsModal] = useState(false);
 
+    const history = useHistory();
+    
     useEffect(() => {
-        const { user } = JSON.parse(localStorage.getItem("userInfo"));
+        const user = JSON.parse(localStorage.getItem("userInfo"));
+        
+        if (!user) {
+            history.push("/auth/signin");
+            return;
+        }
+
         setEmail(user.email);
         setUsername(user.username);
 
         getOrders(user.email)
-    }, []);
+
+    }, [history]);
 
     const getOrders = async (email) => {
         try {
@@ -33,10 +42,17 @@ const User = () => {
         }
     }
 
-    const history = useHistory();
     const handleLogout = () => {
-        logout();
-        history.push("/");
+        getTokenFromUserDatabase()
+         .then( async (refreshToken) => {
+
+            await logout(refreshToken);
+            
+         })
+          .catch(error => {
+            console.log(error);
+          })
+
     };
 
     const formatDate = (date) => {

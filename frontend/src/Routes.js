@@ -14,11 +14,21 @@ import { Home, Book, User, Auth, Cart, Success, Cancel, Admin } from "./pages";
 
 import { isAuthenticated } from "./services/auth";
 
+export const checkAuthentication = () => {
+    return isAuthenticated().then(response => {
+        return response;
+    })
+    .catch(err => {
+        console.log(err)
+        return false;
+    });
+}
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
         render={(props) =>
-            isAuthenticated() ? (
+            checkAuthentication() ? (
                 <Component {...props} />
             ) : (
                 <Redirect
@@ -29,7 +39,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
                 />
             )
         }
-    />
+    />  
 );
 
 const Routes = () => {

@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const User = require('../models/user')
 const Token = require('../models/tokens')
 
+const { JWT_ACCESS_SECRET } = require("../config")
+
 module.exports = { 
     verifyToken(req, res, next) {
         const accessToken = req.cookies.jwt
@@ -13,11 +15,11 @@ module.exports = {
             });
         }
 
-        jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET, (err, user) => {
+        jwt.verify(accessToken, JWT_ACCESS_SECRET, (err, user) => {
 
             if (err) {
                 console.log(err)
-                return res.status(403).json({ message: err.message || "Request forbidden!" });
+                return res.status(401).json({ message: "Unauthorized request!" });
             }
             
             req.user = user;

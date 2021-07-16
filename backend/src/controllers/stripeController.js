@@ -1,4 +1,5 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const { STRIPE_SECRET_KEY } = require("../config")
+const stripe = require("stripe")(STRIPE_SECRET_KEY);
 
 const payment = {
     async createCheckoutSession(req, res) {
@@ -27,7 +28,7 @@ const payment = {
             res.json({ id: session.id });
 
         } catch(error) {
-            res.status(error.statusCode || 500).json({message: error})
+            res.status(error.statusCode || 500).json({ message: "Internal server error" })
             console.log(error)
         }
     },
@@ -40,7 +41,7 @@ const payment = {
             res.json({ customer })
 
         } catch(error) {
-            res.status(error.statusCode || 500).json({message: error})
+            res.status(error.statusCode || 500).json({ message: "Internal server error" })
             console.log(error)
         }
     }
@@ -58,7 +59,7 @@ const customer = {
             res.json({ customer: newCustomer })
 
         } catch(error) {
-            res.status(error.statusCode || 500).json({message: error })
+            res.status(error.statusCode || 500).json({ message: "Internal server error" })
             console.log(error)
         }
     },
@@ -75,7 +76,7 @@ const customer = {
             res.json({ customerId: !customer[0] ? undefined : customer[0].id })
 
         } catch(error) {
-            res.status(error.statusCode || 500).json({message: error })
+            res.status(error.statusCode || 500).json({ message: "Internal server error" })
             console.log(error)
         }
     }

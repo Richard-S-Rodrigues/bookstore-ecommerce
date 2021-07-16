@@ -20,6 +20,9 @@ const UserSchema = new Schema({
         minlength: [6, "Password should be 6 character long"],
         required: [true, "Please, add a password"],
     },
+    token: {
+        type: String
+    },
     role: {
         type: String,
         default: "user",

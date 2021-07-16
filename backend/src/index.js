@@ -6,6 +6,8 @@ const logger = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
+const { ATLAS_ADMIN_PASSWORD } = require("./config")
+
 const app = express();
 
 const bookRouter = require("./routes/bookRouter");
@@ -15,7 +17,7 @@ const ordersRouter = require("./routes/ordersRouter");
 const adminRouter = require("./routes/adminRouter");
 
 const { verifyToken, isAdmin } = require('./middlewares/auth')
-const refreshToken = require("./controllers/refreshTokenController")
+const { refreshToken, getAccessToken } = require("./controllers/tokenController")
 
 app.use(logger("common"));
 app.use(cookieParser());
@@ -32,8 +34,9 @@ app.use("/orders", verifyToken, ordersRouter);
 app.use('/admin', verifyToken, isAdmin, adminRouter)
 
 app.post('/refreshToken', refreshToken)
+app.get('/getAccessToken', getAccessToken)
 
-const connection_url = `mongodb+srv://admin:${process.env.ATLAS_ADMIN_PASSWORD}@cluster0.yxb3f.mongodb.net/bookstore?retryWrites=true&w=majority`;
+const connection_url = `mongodb+srv://admin:${ATLAS_ADMIN_PASSWORD}@cluster0.yxb3f.mongodb.net/bookstore?retryWrites=true&w=majority`;
 const port = process.env.PORT || 3333;
 
 mongoose

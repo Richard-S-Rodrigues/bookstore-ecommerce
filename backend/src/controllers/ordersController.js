@@ -44,7 +44,7 @@ module.exports = {
 			return res.json({ message: "Successful order" })
 
 		} catch(error) {
-			res.status(error.statusCode || 500).json({message: error})
+			res.status(error.statusCode || 500).json({ message: "Internal server error" })
 			console.log(error)
 		}
 	},
@@ -70,7 +70,7 @@ module.exports = {
 			})
 		} catch(error) {
 			console.log(error)
-			return res.status(error.statusCode || 500).json({message: error.message})
+			return res.status(error.statusCode || 500).json({ message: "Internal server error" })
 		}
 	}
 }

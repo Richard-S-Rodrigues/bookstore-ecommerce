@@ -29,7 +29,7 @@ const Signin = () => {
     const history = useHistory();
     const onSubmitHandler = async (event) => {
         event.preventDefault();
-
+        
         const response = await login({
             email: userEmail,
             password: userPassword,
@@ -39,13 +39,11 @@ const Signin = () => {
             setError(response.data.message);
             setIsError(true);
         } else {
-            // Pass all necessary data to 'userData'
-            const { password, createdAt, ...userData } = response.data.user;
-            const data = { user: userData };
 
-            localStorage.setItem("userInfo", JSON.stringify(data));
+            localStorage.setItem("userInfo", JSON.stringify(response.data.user));
             history.push("/user");
         }
+
     };
     return (
         <>
