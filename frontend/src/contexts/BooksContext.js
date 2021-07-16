@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useCallback } from "react";
 
 import api from "../services/api";
 
@@ -16,14 +16,14 @@ const BooksProvider = ({ children }) => {
         }
     }
 
-    const setBooks = async () => {
+    const setBooks = useCallback(async () => {
         const books = await getBooks()
         setBooksData(books);
-    };
+    }, []);
 
     useEffect(() => {
         setBooks()
-    }, []);
+    }, [setBooks]);
 
 
     return (

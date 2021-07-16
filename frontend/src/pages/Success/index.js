@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 
 import { cartContext } from '../../contexts/CartContext'
@@ -10,32 +10,31 @@ import styles from './index.module.css'
 const Success = ({ location }) => {
 	const { cart, clearCart } = useContext(cartContext)
 
-	useEffect(() => {
-		getData()
-	}, [])
-
-	const getData = async () => {
+	const handleOrder = useCallback(async () => {
 		const session_id = location.search.replace(/\?session_id=/, '') 
 
 		try {
 			const response = await api.post('/stripe/order-success', { session_id })
 
-			createOrder(cart, response.data.customer.email)
+			api.post('/orders/create', { 
+				email: response.data.customer.email, 
+				orders: cart 
+			}).then(() => {
+
+				clearCart()
+			})
+			.catch(err => { throw new Error(err) })
 
 		} catch(error) {
-			console.log(error)
+			console.error(error)
 		}
-	}
+	}, [cart, clearCart, location.search])
+	
+	useEffect(() => {
+		handleOrder()
+	}, [handleOrder])
 
-	const createOrder = (cartItems, userEmail) => {
-		try {
-		   api.post('/orders/create', { email: userEmail, orders: cartItems })
 
-		   clearCart()
-		} catch(error) {
-			console.log(error)
-		}	
-	}
 
 	return (
 		<div className={styles.container}>
