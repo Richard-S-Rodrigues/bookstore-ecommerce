@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react"
 
 import { booksContext } from "../../contexts/BooksContext"
+
+import NewBook from "./NewBook";
 import Edit from "./Edit"
 
 import api from '../../services/api'
@@ -8,10 +10,11 @@ import api from '../../services/api'
 import styles from './index.module.css'
 
 const Admin = () => {
-	const { books, setBooks, getBooks } = useContext(booksContext)
-	const [booksData, setBooksData] = useState([])
+	const { books, setBooks } = useContext(booksContext)
+	const [booksDataCache, setBooksDataCache] = useState([])
 
 	const [users, setUsers] = useState([])
+	const [usersDataCache, setUsersDataCache] = useState([])
 
 	const [editData, setEditData] = useState({})
 	const [itemToBeDeleted, setItemToBeDeleted] = useState("")
@@ -20,10 +23,13 @@ const Admin = () => {
 	const [isEdit, setIsEdit] = useState(false)
 	const [isConfirmDelete, setIsConfirmDelete] = useState(false)
 
+	const [isNewBookModal, setIsNewBookModal] = useState(false);
+
 	const getUsersData = async () => {
 		try {
 			const { data: usersData } = await api.get('/admin/getUsers')
-			setUsers(usersData)	
+			setUsers(usersData)
+			setUsersDataCache(usersData)	
 		} catch(error) {
 			console.log(error)
 		}
@@ -35,12 +41,12 @@ const Admin = () => {
 
 	useEffect(() => {
 		const getBooksData = async () => {
-			const books = await getBooks()
-			setBooksData(books)
+			const booksData = await books;
+
+			setBooksDataCache(booksData)
 		}
 		getBooksData()
-
-	}, [setBooks, getBooks])
+	}, [setBooks, books])
 
 	const actionOnBook = (actionType, bookData) => {
 		setCurrentItemType("books")
@@ -66,6 +72,7 @@ const Admin = () => {
 		if (actionType === "delete") {
 			setIsConfirmDelete(true)
 			setItemToBeDeleted(userData._id)
+			console.log(userData._id)
 		}
 	}
 
@@ -75,19 +82,20 @@ const Admin = () => {
 		try {
 			if (currentItemType === "books") {
 				const response = await api.delete(`/admin/removeBook/${itemId}`)
-				alert(response.data.message)
-
+				console.log(response.data)
 				// Update books context
 				setBooks()
 			}
 			if (currentItemType === "users") {
 				const response = await api.delete(`/admin/removeUser/${itemId}`)
-				alert(response.data.message)
+				console.log(response.data)
+
+				// Get updated users
+				getUsersData()
 			}
 
 		} catch(error) {
 			console.log("error: ", error)
-			window.alert(error.message)
 		}
 
 		setIsConfirmDelete(false)
@@ -98,30 +106,31 @@ const Admin = () => {
 
 		if (itemType === "books") {
 			if (!value) {
-				setBooks()
+				setBooksDataCache(books)
 				return;
 			}
 
 			const filteredValues = books.filter(({ title }) => title.toLowerCase().includes(value))
 			
 			if (!filteredValues.length) {
-				setBooksData([])
+				setBooksDataCache([])
 			} else {
-				setBooksData(filteredValues)
+				setBooksDataCache(filteredValues)
 			}
 		}
+
 		if (itemType === "users") {
 			if (!value) {
-				getUsersData()
+				setUsersDataCache(users)
 				return;
 			}
 
 			const filteredValues = users.filter(({ email }) => email.toLowerCase().includes(value))
-			
+
 			if (!filteredValues.length) {
-				setUsers([])
+				setUsersDataCache([])
 			} else {
-				setUsers(filteredValues)
+				setUsersDataCache(filteredValues)
 			}
 		}
 	}
@@ -139,11 +148,13 @@ const Admin = () => {
 							placeholder="Search book"
 							onChange={(event) => searchItem(event, "books")}
 						/>
-						<button>New</button>
+						<button onClick={() => {
+							setIsNewBookModal(true);
+						}}>New</button>
 					</div>
 					<ul>
-						{!booksData.length && <div>No Books Found!</div>}
-						{booksData.map(value => (
+						{!booksDataCache.length && <div>No Books Found!</div>}
+						{booksDataCache.map(value => (
 							<li key={value._id}>
 								<div className={styles.nameContainer}>{value.title}</div>
 								<div className={styles.actionsContainer}>
@@ -175,11 +186,10 @@ const Admin = () => {
 							placeholder="Search user"
 							onChange={(event) => searchItem(event, "users")}
 						/>
-						<button>New</button>
 					</div>
 					<ul>
-						{!users.length && <div>No Users Found!</div>}
-						{users.map(value => (
+						{!usersDataCache.length && <div>No Users Found!</div>}
+						{usersDataCache.map(value => (
 							<li key={value._id}>
 								<div className={styles.nameContainer}>{value.email}</div>
 								<div className={styles.actionsContainer}>
@@ -201,6 +211,13 @@ const Admin = () => {
 					</ul>
 				</section>
 			</main>
+			{isNewBookModal && (
+				<NewBook 
+					toggleModal={setIsNewBookModal}
+					updateBooks={setBooks}
+				/>
+			)}
+
 			{isEdit && (
 				<div className={styles.modalContainer}>
 					<div>

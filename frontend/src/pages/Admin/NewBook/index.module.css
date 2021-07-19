@@ -1,0 +1,113 @@
+.modalContainer {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  padding-top: 8em;
+  overflow-y: auto;
+
+  background-color: rgba(0, 0, 0, 0.7);
+
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.5s;
+}
+
+.modal {
+  background: #fff;
+  width: min(90%, 34em);
+  min-height: 10em;
+  height: auto;
+
+  padding: 2em;
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+
+.mainContainer {
+  text-align: left;
+}
+
+.imageContainer img {
+  height: 15em;
+}
+
+.imageContainer label {
+  width: 15em;
+  text-align: center;
+  display: block;
+  border: 1px solid var(--light-grey);
+  border-radius: 3px;
+  padding: 1em;
+  cursor: pointer;
+
+  transition: 1s;
+}
+
+.imageContainer label:hover {
+  background: var(--blue);
+  color: #fff;
+  font-weight: 600;
+}
+
+.imageContainer input {
+  visibility: hidden;
+}
+
+
+.inputsContainer {
+  margin-top: 1em;
+}
+
+.inputsContainer div {
+  display: block;
+}
+
+.inputsContainer div input {
+  width: 100%;
+  padding: 0.25em;
+  margin: 0.8em auto;
+}
+
+.descriptionContent textarea {
+  width: 100%;
+  margin: 1em auto;
+  min-height: 5em;
+  height: auto;
+}
+
+.actionsContainer {
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.actionsContainer button {
+  margin-top: 1em;
+  padding: 1em;
+  color: #fff;
+  font-weight: 600;
+  width: 5em;
+  border-radius: 0.25rem;
+}
+
+.actionsContainer button:hover {
+  color: var(--light-grey);
+}
+
+.actionsContainer button[name="add"] {
+  background: var(--green);
+}
+
+.actionsContainer button[name="cancel"] {
+  background: var(--red);
+}

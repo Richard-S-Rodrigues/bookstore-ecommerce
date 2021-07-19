@@ -15,10 +15,16 @@ const tokenController = {
 		try {
 			const isTokenInDatabase = await Token.findById(requestRefreshToken)
 
-			if (!requestRefreshToken || isTokenInDatabase === null) {
+			if (!requestRefreshToken) {
 				return res.status(401).json({
 					message: "Unauthorized request!",
 				});
+			}
+
+			if (!isTokenInDatabase) {
+				return res.status(403).json({
+					message: "Refresh token expired. Make a new sign in request"
+				})				
 			}
 
 			if (verifyTokenExpiration(isTokenInDatabase)) {

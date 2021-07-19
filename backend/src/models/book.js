@@ -9,7 +9,7 @@ const booksSchema = new Schema({
     pagesNumber: { type: String, required: true },
     description: { type: String },
     publisher: { type: String, required: true },
-    image: { type: String },
+    image: { type: String, required: true },
     ordered_quantity: { type: String, default: "0" },
 });
 

@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { loadStripe } from '@stripe/stripe-js';
 
 import { cartContext } from "../../contexts/CartContext";
+import { userContext } from "../../contexts/UserContext";
 
 import CartItems from "../../components/CartItems";
 
@@ -13,7 +14,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY)
 
 const Cart = () => {
     const { cart, setCart } = useContext(cartContext);
-    const { user } = JSON.parse(localStorage.getItem('userInfo'))
+    const { user } = useContext(userContext);
 
     const [cartData, setCartData] = useState(cart);
     const [lineItems, setLineItems] = useState([])

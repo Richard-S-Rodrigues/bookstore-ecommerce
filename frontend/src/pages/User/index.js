@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid'
 
 import api from '../../services/api'
-import { logout, getTokenFromUserDatabase } from "../../services/auth";
+import { logout } from "../../services/auth";
+import { userContext } from "../../contexts/UserContext";
 
 import styles from "./index.module.css";
 
 const User = () => {
+    const { user, getTokenFromUserDatabase } = useContext(userContext);
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [orders, setOrders] = useState([])
@@ -17,7 +19,6 @@ const User = () => {
     const history = useHistory();
     
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("userInfo"));
         
         if (!user) {
             history.push("/auth/signin");
@@ -29,7 +30,7 @@ const User = () => {
 
         getOrders(user.email)
 
-    }, [history]);
+    }, [user, history]);
 
     const getOrders = async (email) => {
         try {
@@ -46,7 +47,7 @@ const User = () => {
         getTokenFromUserDatabase()
          .then( async (refreshToken) => {
 
-            await logout(refreshToken);
+            return await logout(refreshToken);
             
          })
           .catch(error => {

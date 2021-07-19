@@ -1,6 +1,10 @@
+import { useContext } from "react"
 import axios from "axios";
 
-import { getTokenFromUserDatabase, logout } from "./auth";
+import { userContext } from "../contexts/UserContext";
+
+import { logout } from "./auth";
+
 
 axios.defaults.withCredentials = true;
 
@@ -13,28 +17,34 @@ api.interceptors.response.use((config) => {
 
 }, async (err) => {
     const error = err.response;
-    const token = await getTokenFromUserDatabase()
+    const { getTokenFromUserDatabase } = useContext(userContext);
 
     // If access token expired, refresh token
     if (error.status === 401 && error.config && !error.config.__isRetryRequest) {
+        const token = await getTokenFromUserDatabase()
 
         return api.post("/refreshToken", { token }).then(res => {
             error.config.__isRetryRequest = true;
             return axios(error.config);
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            return Promise.reject(error)
+        })
     
     }
 
     // If refresh token expired, logout user
     if (error.status === 403 && error.config && !error.config.__isRetryRequest) {
-        
+        const token = await getTokenFromUserDatabase()
+
         return logout(token).then(res => {
 
             error.config.__isRetryRequest = true;
             return axios(error.config);
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            return Promise.reject(error)
+        })
 
     }
 

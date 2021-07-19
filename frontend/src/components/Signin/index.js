@@ -42,6 +42,7 @@ const Signin = () => {
 
             localStorage.setItem("userInfo", JSON.stringify(response.data.user));
             history.push("/user");
+            window.location.reload();
         }
 
     };
