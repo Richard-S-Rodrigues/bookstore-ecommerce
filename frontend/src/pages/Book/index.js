@@ -66,6 +66,8 @@ const Book = (props) => {
     const addToCart = () => {
         const items = cartData;
 
+        if (parseInt(quantity) <= 0) return;
+
         const newItem = {
             productId: id,
             productName: title,
@@ -151,7 +153,7 @@ const Book = (props) => {
                     >
                         <input
                             type="number"
-                            min="0"
+                            min="1"
                             max="99"
                             name="quantity"
                             value={quantity}

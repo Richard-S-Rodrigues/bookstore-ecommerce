@@ -15,6 +15,7 @@ const userRouter = require("./routes/userRouter");
 const stripeRouter = require("./routes/stripeRouter");
 const ordersRouter = require("./routes/ordersRouter");
 const adminRouter = require("./routes/adminRouter");
+const uploadFileRouter = require("./routes/uploadFileRouter");
 
 const { verifyToken, isAdmin } = require('./middlewares/auth')
 const { refreshToken, getAccessToken } = require("./controllers/tokenController")
@@ -32,6 +33,8 @@ app.use("/user", userRouter);
 app.use("/stripe", verifyToken, stripeRouter);
 app.use("/orders", verifyToken, ordersRouter);
 app.use('/admin', verifyToken, isAdmin, adminRouter)
+
+app.use("/upload", uploadFileRouter);
 
 app.post('/refreshToken', refreshToken)
 app.get('/getAccessToken', getAccessToken)

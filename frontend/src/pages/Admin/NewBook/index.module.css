@@ -20,7 +20,7 @@
 
 .modal {
   background: #fff;
-  width: min(90%, 34em);
+  max-width: min(90%, 50em);
   min-height: 10em;
   height: auto;
 
@@ -110,4 +110,14 @@
 
 .actionsContainer button[name="cancel"] {
   background: var(--red);
+}
+
+@media(max-width: 408px) {
+  .imageContainer label {
+    width: 10em;
+  }
+
+  .actionsContainer {
+    width: 100%;
+  }
 }
