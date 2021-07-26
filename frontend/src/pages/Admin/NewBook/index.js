@@ -166,7 +166,7 @@ const NewBook = ({ toggleModal, updateBooks }) => {
 								/>
 							</div>
 							<div>
-								<label htmlFor="isbn" >Isbn:</label>
+								<label htmlFor="isbn" >Isbn: <small style={{color: "var(--grey)"}}>10 or 13</small></label>
 								<input 
 									type="text"
 									id="isbn"

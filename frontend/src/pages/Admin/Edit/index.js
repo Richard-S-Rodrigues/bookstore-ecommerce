@@ -8,10 +8,10 @@ const Edit = ({ books, users, editData, setIsEdit }) => (
 			onSubmit={(event) => event.preventDefault()}
 		>
 			<section className={styles.editContainer}>
-				<div>
-					<img src={editData.image} alt={editData.title}/>
+				<div className={styles.imgContainer}>
+					<img src={editData.image.filepath} alt={editData.title}/>
 				</div>
-				<div>
+				<div className={styles.inputsContainer}>
 					<div>
 						<label>Title</label>
 						<input
@@ -20,8 +20,6 @@ const Edit = ({ books, users, editData, setIsEdit }) => (
 							name="title"
 							value={editData.title} 
 						/>
-					</div>
-					<div>
 						<label>Author</label>
 						<input
 							type="text"
@@ -38,8 +36,6 @@ const Edit = ({ books, users, editData, setIsEdit }) => (
 							name="price"
 							value={editData.price} 
 						/>
-					</div>
-					<div>
 						<label>Isbn</label>
 						<input
 							type="text"
@@ -74,8 +70,6 @@ const Edit = ({ books, users, editData, setIsEdit }) => (
 							name="publisher"
 							value={editData.publisher} 
 						/>
-					</div>
-					<div>
 						<label>Ordered quantity</label>
 						<input
 							type="text"

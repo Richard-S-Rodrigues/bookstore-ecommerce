@@ -63,6 +63,7 @@
 	
 	width: 7em;
 	max-width: 10em;
+	max-height: 2.7em;
 }
 
 .actionsContainer button {
@@ -107,11 +108,9 @@
 
 .modalContainer div {
   background: #fff;
-  width: min(90%, 34em);
-  height: 10em;
+  width: min(90%, 45em);
+  height: auto;
   max-height: 100vh;
-
-  padding: 2em;
 
   display: flex;
   flex-direction: column;
