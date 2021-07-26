@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import api from "../../../services/api";
+import { formatNumber, formatCurrency } from "../../../services/utils";
 
 import styles from "./index.module.css";
 
@@ -14,7 +15,8 @@ const NewBook = ({ toggleModal, updateBooks }) => {
 	const [bookPagesNumber, setBookPagesNumber] = useState("")
 	const [bookDescription, setBookDescription] = useState("")
 	const [bookPublisher, setBookPublisher] = useState("")
-	const [bookImage, setBookImage] = useState("")
+	const [bookImageTmpUrl, setBookImageTmpUrl] = useState("")
+	const [bookImageFile, setBookImageFile] = useState({})
 
 	const onChangeHandler = (event) => {
 		const {name, value} = event.target;
@@ -28,14 +30,14 @@ const NewBook = ({ toggleModal, updateBooks }) => {
 				setBookAuthor(value);
 			break;
 			case "price":
-				formatedValue = Utils.formatCurrency(value);
+				formatedValue = formatCurrency(value);
 				setBookPrice(formatedValue);
 			break;
 			case "isbn":
 				setBookIsbn(value);
 			break;
 			case "pagesNumber":
-				formatedValue = Utils.formatNumber(value);
+				formatedValue = formatNumber(value);
 				setBookPagesNumber(formatedValue);
 			break;
 			case "description":
@@ -54,15 +56,18 @@ const NewBook = ({ toggleModal, updateBooks }) => {
 
 		const imgUrl = URL.createObjectURL(file)
 
-		setBookImage(imgUrl)
+		setBookImageFile(file)
+		setBookImageTmpUrl(imgUrl)
 	}
 
 	const submitNewBook = async () => {
 
 		// Check if ts not empty
 		if (bookTitle && bookAuthor && bookPrice && bookIsbn && bookPagesNumber &&
-			bookDescription && bookPublisher && bookImage) {
+			bookDescription && bookPublisher && bookImageTmpUrl) {
 			
+			const { image } = await uploadImageFile(bookImageFile);
+
 			const bookData = {
 				title: bookTitle,
 	            author: bookAuthor,
@@ -71,7 +76,7 @@ const NewBook = ({ toggleModal, updateBooks }) => {
 	            pagesNumber: bookPagesNumber,
 	            description: bookDescription,
 	            publisher: bookPublisher,
-	            image: bookImage
+	            image
 			};
 
 			await createNewBook(bookData);
@@ -79,6 +84,24 @@ const NewBook = ({ toggleModal, updateBooks }) => {
 			toggleModal(false);
 		} else {
 			return;
+		}
+	}
+
+	const uploadImageFile = async (imageFile) => {
+		const imageFileData = new FormData();
+
+		imageFileData.append(
+			"file",
+			imageFile,
+			imageFile.name
+		)
+
+		try {
+			const response = await api.post("/upload/image", imageFileData);
+
+			return response.data;
+		} catch (error) {
+			console.error(error)
 		}
 	}
 
@@ -90,32 +113,6 @@ const NewBook = ({ toggleModal, updateBooks }) => {
 		}
 	}
 
-	const Utils = {
-		formatNumber(value) {
-			// Remove values that are not numbers
-			value = value.replace(/\D/g, '');
-			
-			// Remove '-'
-			if (Number(value) < 0) {
-				value = value.substring(1);
-			}
-
-			return value;
-		},
-		formatCurrency(value) {
-			value = Utils.formatNumber(value);
-
-			value = Number(value) / 100;
-
-			value = value.toLocaleString("en-us", {
-				style: "currency",
-				currency: "usd"
-			});
-
-			return value;
-		}
-	}
-
 	return (
 		<div className={styles.modalContainer}>
 			<main className={styles.modal}>
@@ -123,7 +120,7 @@ const NewBook = ({ toggleModal, updateBooks }) => {
 				<form onSubmit={(event) => event.preventDefault()} method="POST">
 					<section className={styles.mainContainer}>
 						<div className={styles.imageContainer}>
-							<img src={bookImage || bookDefaultImage} alt={bookTitle} />
+							<img src={bookImageTmpUrl || bookDefaultImage} alt={bookTitle} />
 							<label htmlFor="imageInput">Upload Image</label>
 							<input 
 								type="file"

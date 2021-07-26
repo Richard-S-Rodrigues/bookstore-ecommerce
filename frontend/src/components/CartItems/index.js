@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { formatCurrency } from "../../services/utils";
+
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import styles from "./index.module.css";
@@ -21,6 +23,7 @@ const CartItems = ({ data, quantityHandler, removeCartItem }) =>
                 qty: quantity,
                 productPrice,
             } = value;
+
             return (
                 <div key={productId} className={styles.item}>
                     <div className={styles.imgContainer}>
@@ -30,7 +33,7 @@ const CartItems = ({ data, quantityHandler, removeCartItem }) =>
                         <div>
                             <Link to={`/book/${productId}`}>{productName}</Link>
                         </div>
-                        <div>${(quantity * productPrice).toFixed(2)}</div>
+                        <div>{formatCurrency(quantity * productPrice)}</div>
                     </div>
 
                     <div className={styles.actionsContainer}>

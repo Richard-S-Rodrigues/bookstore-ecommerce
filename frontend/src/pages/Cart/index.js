@@ -7,6 +7,7 @@ import { userContext } from "../../contexts/UserContext";
 import CartItems from "../../components/CartItems";
 
 import api from '../../services/api'
+import { formatCurrency } from "../../services/utils"
 
 import styles from "./index.module.css";
 
@@ -36,7 +37,7 @@ const Cart = () => {
                         product_data: {
                             name: item.productName
                         },
-                        unit_amount: Number(item.productPrice) * 100
+                        unit_amount: item.productPrice
                     },
                     quantity: item.qty
                 },
@@ -137,15 +138,15 @@ const Cart = () => {
                             )
                         </h2>
                         <small>
-                            $
                             {cartData
                                 .reduce(
                                     (previousValue, value) =>
+                                        formatCurrency(
                                         previousValue +
-                                        value.productPrice * value.qty,
+                                        value.productPrice * value.qty),
                                     0
                                 )
-                                .toFixed(2)}
+                            }
                         </small>
                     </div>
                     <div>

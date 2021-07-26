@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import api from "../../services/api";
+import { formatNumber, formatCurrency } from "../../services/utils"
 import { cartContext } from "../../contexts/CartContext";
 
 import styles from "./index.module.css";
@@ -51,8 +52,8 @@ const Book = (props) => {
             setDescription(response.data.description);
             setPublisher(response.data.publisher);
             setIsbn(response.data.isbn);
-            setImage(response.data.image);
-            setPrice(response.data.price);
+            setImage(response.data.image.filepath);
+            setPrice(formatNumber(response.data.price));
             setPagesNumber(response.data.pagesNumber);
         } catch (error) {
             console.error(error);
@@ -116,7 +117,7 @@ const Book = (props) => {
                                     <span className={styles.textBold}>
                                         Price:
                                     </span>
-                                    <span>${price}</span>
+                                    <span>{formatCurrency(price)}</span>
                                 </li>
                                 <li>
                                     <span className={styles.textBold}>

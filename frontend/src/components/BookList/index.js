@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+import bookDefaultImage from "../../assets/default-book.png";
 import styles from "./index.module.css";
 
 const BookList = ({ books }) =>
@@ -7,7 +8,10 @@ const BookList = ({ books }) =>
         <div className={styles.container} key={book._id}>
             <div>
                 <Link to={`/book/${book._id}`} className={styles.imgContainer}>
-                    <img src={book.image} alt={book.title} />
+                    <img 
+                        src={book.image.filepath || bookDefaultImage} 
+                        alt={book.title} 
+                    />
                 </Link>
 
                 <div className={styles.infoContainer}>
@@ -19,7 +23,7 @@ const BookList = ({ books }) =>
                         </div>
                     </Link>
 
-                    <h3>${book.price}</h3>
+                    <h3>{book.price}</h3>
                 </div>
             </div>
         </div>

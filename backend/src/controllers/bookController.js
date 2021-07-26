@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const cloudinary = require("cloudinary").v2;
 const Books = require("../models/book");
 
 module.exports = {
@@ -75,7 +76,11 @@ module.exports = {
         const { id } = request.params;
 
         try {
-            await Books.findByIdAndRemove(id);
+            const book = await Books.findByIdAndRemove(id);
+
+            cloudinary.uploader.destroy(book.image.public_id, (result) => {
+                console.log(result);
+            })
 
             response.status(201).json({
                 message: "Book deleted successfully",

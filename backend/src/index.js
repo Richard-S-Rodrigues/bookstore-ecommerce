@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const logger = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const cloudinary = require("cloudinary");
 
 const { ATLAS_ADMIN_PASSWORD } = require("./config")
 
@@ -34,10 +35,16 @@ app.use("/stripe", verifyToken, stripeRouter);
 app.use("/orders", verifyToken, ordersRouter);
 app.use('/admin', verifyToken, isAdmin, adminRouter)
 
-app.use("/upload", uploadFileRouter);
+app.use("/upload", verifyToken, isAdmin, uploadFileRouter);
 
 app.post('/refreshToken', refreshToken)
 app.get('/getAccessToken', getAccessToken)
+
+cloudinary.config({ 
+  cloud_name: 'bookstorerdx', 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET 
+});
 
 const connection_url = `mongodb+srv://admin:${ATLAS_ADMIN_PASSWORD}@cluster0.yxb3f.mongodb.net/bookstore?retryWrites=true&w=majority`;
 const port = process.env.PORT || 3333;

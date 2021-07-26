@@ -4,12 +4,12 @@ import { v4 as uuidv4 } from 'uuid'
 
 import api from '../../services/api'
 import { logout } from "../../services/auth";
-import { userContext } from "../../contexts/UserContext";
+import { userContext, getTokenFromUserDatabase } from "../../contexts/UserContext";
 
 import styles from "./index.module.css";
 
 const User = () => {
-    const { user, getTokenFromUserDatabase } = useContext(userContext);
+    const { user } = useContext(userContext);
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [orders, setOrders] = useState([])

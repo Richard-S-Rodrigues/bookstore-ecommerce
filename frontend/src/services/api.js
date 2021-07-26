@@ -1,7 +1,6 @@
-import { useContext } from "react"
 import axios from "axios";
 
-import { userContext } from "../contexts/UserContext";
+import { getTokenFromUserDatabase } from "../contexts/UserContext";
 
 import { logout } from "./auth";
 
@@ -17,7 +16,6 @@ api.interceptors.response.use((config) => {
 
 }, async (err) => {
     const error = err.response;
-    const { getTokenFromUserDatabase } = useContext(userContext);
 
     // If access token expired, refresh token
     if (error.status === 401 && error.config && !error.config.__isRetryRequest) {
