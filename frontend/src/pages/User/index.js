@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import api from '../../services/api'
 import { logout } from "../../services/auth";
+import { formatCurrency } from "../../services/utils";
 import { userContext, getUserDatabase } from "../../contexts/UserContext";
 
 import styles from "./index.module.css";
@@ -115,7 +116,7 @@ const User = () => {
                                         <tr key={uuidv4()}>
                                             <td><Link to={`/book/${order.productId}`}>{order.productId}</Link></td>
                                             <td>{order.productName}</td>
-                                            <td>${order.productPrice} / {order.qty}</td>
+                                            <td>{formatCurrency(order.productPrice)} / {order.qty}</td>
                                             <td>{formatDate(order.orderedAt)}</td>
                                         </tr>
                                     ))}
