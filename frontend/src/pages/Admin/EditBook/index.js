@@ -1,8 +1,13 @@
 
 import styles from "./index.module.css"
 
-const Edit = ({ books, users, editData, setIsEdit }) => (
-	books ? (
+const EditBook = ({ editData, setIsEdit }) => {
+
+	const onChangeImageHandler = () => {
+
+	}
+
+	return (
 		<form
 			className={styles.editForm} 
 			onSubmit={(event) => event.preventDefault()}
@@ -10,6 +15,14 @@ const Edit = ({ books, users, editData, setIsEdit }) => (
 			<section className={styles.editContainer}>
 				<div className={styles.imgContainer}>
 					<img src={editData.image.filepath} alt={editData.title}/>
+					<label htmlFor="imageInput">Upload Image</label>
+					<input 
+						type="file"
+						id="imageInput"
+						accept="image/*"
+						required 
+						onChange={onChangeImageHandler}
+					/>
 				</div>
 				<div className={styles.inputsContainer}>
 					<div>
@@ -98,30 +111,7 @@ const Edit = ({ books, users, editData, setIsEdit }) => (
 				</button>
 			</section>
 		</form>
-	) : users && (
-		<form
-			className={styles.editForm} 
-			onSubmit={(event) => event.preventDefault()}
-		>
+	) 
+};
 
-			<section className={styles.editActionsContainer}>
-				<button 
-					type="submit"
-					name="save"
-				>
-					Save
-				</button>
-				
-				<button
-					type="submit"
-					name="cancel"
-					onClick={() => setIsEdit(false)}
-				>
-					Cancel
-				</button>
-			</section>
-		</form>
-	)
-);
-
-export default Edit;
+export default EditBook;

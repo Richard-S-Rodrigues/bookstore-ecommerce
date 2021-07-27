@@ -98,7 +98,7 @@ const NewBook = ({ toggleModal, updateBooks }) => {
 
 		try {
 			const response = await api.post("/upload/image", imageFileData);
-
+			
 			return response.data;
 		} catch (error) {
 			console.error(error)

@@ -66,6 +66,10 @@
 	max-height: 2.7em;
 }
 
+.usersContainer ul li .actionsContainer {
+	justify-content: end;
+}
+
 .actionsContainer button {
 	color: #fff;
 	font-weight: 600;
@@ -122,7 +126,7 @@
   display: flex;
   justify-content: space-between;
 
-  margin-top: 1em;
+  padding: 1em;
 }
 
 .confirmDeleteForm button {
@@ -179,6 +183,17 @@
 	.searchBoxContainer button {
 		margin: 1em 0;
 		width: 12em;
+	}
+}
+
+@media (max-width: 624px) {
+	.modalContainer {
+		padding-top: 1em;
+	}
+
+	.modalContainer div {
+		overflow-y: auto;
+		padding-bottom: 1em;
 	}
 }
 

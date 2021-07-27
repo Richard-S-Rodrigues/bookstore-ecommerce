@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import api from '../../services/api'
 import { logout } from "../../services/auth";
-import { userContext, getTokenFromUserDatabase } from "../../contexts/UserContext";
+import { userContext, getUserDatabase } from "../../contexts/UserContext";
 
 import styles from "./index.module.css";
 
@@ -44,10 +44,10 @@ const User = () => {
     }
 
     const handleLogout = () => {
-        getTokenFromUserDatabase()
-         .then( async (refreshToken) => {
+        getUserDatabase()
+         .then( async (data) => {
 
-            return await logout(refreshToken);
+            return await logout(data.token);
             
          })
           .catch(error => {

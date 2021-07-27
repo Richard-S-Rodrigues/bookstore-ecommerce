@@ -26,10 +26,10 @@ const Signup = () => {
                 setUsername(value);
             break;
             case 'password':
-                setPassword(value);
+                setPassword(value.trim());
             break;
             case 'confirmPassword':
-                setConfirmPassword(value)
+                setConfirmPassword(value.trim())
             break;
             default:
                 return;

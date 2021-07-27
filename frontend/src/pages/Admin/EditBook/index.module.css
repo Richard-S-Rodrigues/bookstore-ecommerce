@@ -13,11 +13,35 @@
 
 .imgContainer {
   width: 30%;
+  align-items: center;
   margin-right: 1em;
 }
 
 .imgContainer img {
   width: 100%;
+}
+
+.imgContainer label {
+  margin-top: 1em;
+  width: 15em;
+  text-align: center;
+  display: block;
+  border: 1px solid var(--light-grey);
+  border-radius: 3px;
+  padding: 1em;
+  cursor: pointer;
+
+  transition: 1s;
+}
+
+.imgContainer label:hover {
+  background: var(--blue);
+  color: #fff;
+  font-weight: 600;
+}
+
+.imgContainer input {
+  visibility: hidden;
 }
 
 .inputsContainer {
@@ -36,8 +60,16 @@
   margin-bottom: 0.5em;
 }
 
-.inputsContainer div input {
-  padding: 1em;
+.inputsContainer div input,
+.inputsContainer div textarea {
+  padding: 0.5em;
+
+  border: 1px solid var(--light-grey);
+  border-radius: 0.25rem;
+}
+
+.inputsContainer div textarea {
+  min-height: 12em;
 }
 
 .editActionsContainer {
@@ -61,4 +93,21 @@
 
 .editActionsContainer button[name="cancel"] {
 	background: var(--red);
+}
+
+@media (max-width: 624px) {
+
+  .editContainer {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+  }
+
+  .imgContainer {
+    padding-top: 28em;
+  }
+
+  .inputsContainer div  {
+    width: 100%;
+  }
 }

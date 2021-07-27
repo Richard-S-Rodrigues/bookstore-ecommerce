@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getTokenFromUserDatabase } from "../contexts/UserContext";
+import { getUserDatabase } from "../contexts/UserContext";
 
 import { logout } from "./auth";
 
@@ -19,7 +19,7 @@ api.interceptors.response.use((config) => {
 
     // If access token expired, refresh token
     if (error.status === 401 && error.config && !error.config.__isRetryRequest) {
-        const token = await getTokenFromUserDatabase()
+        const { token } = await getUserDatabase()
 
         return api.post("/refreshToken", { token }).then(res => {
             error.config.__isRetryRequest = true;
@@ -33,7 +33,7 @@ api.interceptors.response.use((config) => {
 
     // If refresh token expired, logout user
     if (error.status === 403 && error.config && !error.config.__isRetryRequest) {
-        const token = await getTokenFromUserDatabase()
+        const { token } = await getUserDatabase()
 
         return logout(token).then(res => {
 
@@ -54,7 +54,7 @@ export const createUser = async (data) => {
     try {
         return await api.post("/user/signup", data);
     } catch (error) {
-        return error.response;
+        return error;
     }
 };
 

@@ -21,6 +21,10 @@ module.exports = {
                 console.log(err)
                 return res.status(401).json({ message: "Unauthorized request!" });
             }
+
+            if (!user) {
+                return res.status(404).json({ message: "User not found!" });   
+            }
             
             req.user = user;
 
@@ -32,23 +36,36 @@ module.exports = {
         const { id } = req.user
 
         try {
+
+            if (!id) {
+                throw new Error("Id not provided!");
+            }
+
+            if (!User) {
+                return res.status(404).json({ message: "User not found in database!" })
+            }
+
             User.findById(id).exec((err, user) => {
                 if (err) {
-                    res.status(500).send({ message: err });
-                    return;
+                    console.log(err);
+                    return res.status(500).send({ message: err });
                 }
                 
+                if (!user) {
+                    return res.status(404).json({ message: "User not found!" })
+                }
+
                 if (user.role === 'admin') {
                     next()
                     return;
                 }
 
-                res.status(403).send({ message: "Require Admin Role!" });
-                return;
+                return res.status(403).send({ message: "Require Admin Role!" });
+
             })
 
         } catch(error) {
-            res.status(500).send({message: error})
+            res.status(error.statusCode || 500).json({message: error})
             console.log(error)
         }
     }

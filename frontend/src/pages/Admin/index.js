@@ -3,7 +3,8 @@ import { useState, useEffect, useContext } from "react"
 import { booksContext } from "../../contexts/BooksContext"
 
 import NewBook from "./NewBook";
-import Edit from "./Edit"
+import EditBook from "./EditBook"
+import { LoadingSmall } from "../../components/Loading";
 
 import api from '../../services/api'
 
@@ -16,11 +17,11 @@ const Admin = () => {
 	const [users, setUsers] = useState([])
 	const [usersDataCache, setUsersDataCache] = useState([])
 
-	const [editData, setEditData] = useState({})
+	const [editBookData, setEditBookData] = useState({})
 	const [itemToBeDeleted, setItemToBeDeleted] = useState("")
 	const [currentItemType, setCurrentItemType] = useState("") // books or users
 
-	const [isEdit, setIsEdit] = useState(false)
+	const [isEditBook, setIsEditBook] = useState(false)
 	const [isConfirmDelete, setIsConfirmDelete] = useState(false)
 
 	const [isNewBookModal, setIsNewBookModal] = useState(false);
@@ -52,8 +53,8 @@ const Admin = () => {
 		setCurrentItemType("books")
 
 		if (actionType === "edit") {
-			setIsEdit(true)
-			setEditData(bookData)
+			setIsEditBook(true)
+			setEditBookData(bookData)
 		}
 		if (actionType === "delete") {
 			setIsConfirmDelete(true)
@@ -62,18 +63,10 @@ const Admin = () => {
 
 	}
 
-	const actionOnUser = (actionType, userData) => {
+	const setDeleteActionOnUser = (userId) => {
 		setCurrentItemType("users")
-
-		if (actionType === "edit") {
-			setIsEdit(true)
-			setEditData(userData)
-		}
-		if (actionType === "delete") {
-			setIsConfirmDelete(true)
-			setItemToBeDeleted(userData._id)
-			console.log(userData._id)
-		}
+		setIsConfirmDelete(true)
+		setItemToBeDeleted(userId)
 	}
 
 	const deleteItem = async () => {
@@ -82,13 +75,13 @@ const Admin = () => {
 		try {
 			if (currentItemType === "books") {
 				const response = await api.delete(`/admin/removeBook/${itemId}`)
-				console.log(response.data)
+				console.log(response.data.messasse)
 				// Update books context
 				setBooks()
 			}
 			if (currentItemType === "users") {
 				const response = await api.delete(`/admin/removeUser/${itemId}`)
-				console.log(response.data)
+				console.log(response.data.messasse)
 
 				// Get updated users
 				getUsersData()
@@ -153,7 +146,8 @@ const Admin = () => {
 						}}>New</button>
 					</div>
 					<ul>
-						{!booksDataCache.length && <div>No Books Found!</div>}
+						{books.length < 0 && <div>No Books Found!</div>}
+						{booksDataCache.length < 0 && <LoadingSmall />}
 						{booksDataCache.map(value => (
 							<li key={value._id}>
 								<div className={styles.nameContainer}>{value.title}</div>
@@ -188,20 +182,15 @@ const Admin = () => {
 						/>
 					</div>
 					<ul>
-						{!usersDataCache.length && <div>No Users Found!</div>}
+						{users.length < 0 && <div>No Users Found!</div>}
+						{usersDataCache.length < 0 && <LoadingSmall />}
 						{usersDataCache.map(value => (
 							<li key={value._id}>
 								<div className={styles.nameContainer}>{value.email}</div>
 								<div className={styles.actionsContainer}>
 									<button 
-										name="editBtn"
-										onClick={() => actionOnUser("edit", value)}
-									>
-										Edit
-									</button>
-									<button 
 										name="deleteBtn"
-										onClick={() => actionOnUser("delete", value)}
+										onClick={() => setDeleteActionOnUser(value._id)}
 									>
 										Delete
 									</button>
@@ -218,21 +207,13 @@ const Admin = () => {
 				/>
 			)}
 
-			{isEdit && (
+			{isEditBook && (
 				<div className={styles.modalContainer}>
 					<div>
-						{currentItemType === "books" ? (
-							<Edit books 
-								editData={editData} 
-								setIsEdit={setIsEdit} 
-							/>
-						) : currentItemType === "users" && (
-							<Edit users 
-								editData={editData} 
-								setIsEdit={setIsEdit} 
-							/>
-						)}
-                       
+						<EditBook 
+							editData={editBookData} 
+							setIsEdit={setIsEditBook} 
+						/>
                     </div>
 				</div>
 			)}

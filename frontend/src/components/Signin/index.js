@@ -22,7 +22,7 @@ const Signin = () => {
         }
 
         if (name === "password") {
-            setUserPassword(value);
+            setUserPassword(value.trim());
         }
     };
 
