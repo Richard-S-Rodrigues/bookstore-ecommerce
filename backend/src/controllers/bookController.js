@@ -94,9 +94,15 @@ module.exports = {
 
     async update(request, response) {
         const { id } = request.params;
-        const newData = request.body;
-
+        const {oldImagePublicId, ...newData} = request.body;
+        
         try {
+            if (oldImagePublicId !== newData.image.public_id) {
+                cloudinary.uploader.destroy(oldImagePublicId, (result) => {
+                    console.log(result);
+                })
+            }
+
             const data = await Books.findById(id);
 
             const updatedData = Object.assign(data, newData);

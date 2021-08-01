@@ -6,6 +6,7 @@ export const booksContext = createContext([]);
 
 const BooksProvider = ({ children }) => {
     const [booksData, setBooksData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const getBooks = async () => {
         try {
@@ -19,6 +20,8 @@ const BooksProvider = ({ children }) => {
     const setBooks = useCallback(async () => {
         const books = await getBooks()
         setBooksData(books);
+
+        setIsLoading(false);
     }, []);
 
     useEffect(() => {
@@ -27,7 +30,7 @@ const BooksProvider = ({ children }) => {
 
 
     return (
-        <booksContext.Provider value={{ books: booksData, setBooks, getBooks }}>
+        <booksContext.Provider value={{ books: booksData, setBooks, getBooks, isLoading }}>
             {children}
         </booksContext.Provider>
     );

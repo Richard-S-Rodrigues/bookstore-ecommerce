@@ -6,8 +6,8 @@ export const LoadingBig = () => (
 	</div>
 ); 
 
-export const LoadingSmall = () => {
+export const LoadingSmall = () => (
 	<div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
 		<ReactLoading  type="spin" color={"var(--light-blue)"} height={'5em'} width={'5em'} />
 	</div>
-}
+)

@@ -19,6 +19,6 @@ routes.delete("/removeUser/:id", removeUser)
 
 routes.post("/createBook", createBook);
 routes.delete("/removeBook/:id", removeBook);
-routes.patch("/updateBook/:id", updateBook);
+routes.put("/updateBook/:id", updateBook);
 
 module.exports = routes

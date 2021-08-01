@@ -7,6 +7,8 @@ import { logout } from "../../services/auth";
 import { formatCurrency } from "../../services/utils";
 import { userContext, getUserDatabase } from "../../contexts/UserContext";
 
+import { LoadingSmall } from "../../components/Loading";
+
 import styles from "./index.module.css";
 
 const User = () => {
@@ -16,6 +18,7 @@ const User = () => {
     const [orders, setOrders] = useState([])
 
     const [isModal, setIsModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setEmail(user.email);
@@ -31,6 +34,7 @@ const User = () => {
             
             setOrders(response.data.orders)
 
+            setIsLoading(false);
         } catch(error) {
             console.log(error)
         }
@@ -92,6 +96,7 @@ const User = () => {
                         <h1>My Orders ({orders.length})</h1>
                     </div>
 
+                    {orders.length > 0 && isLoading && <LoadingSmall />}
                     {orders.length > 0 && (                        
                         <div className={styles.orders}>
                             <table>

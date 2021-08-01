@@ -26,11 +26,16 @@ const Admin = () => {
 
 	const [isNewBookModal, setIsNewBookModal] = useState(false);
 
+	const [isLoadingBooks, setIsLoadingBooks] = useState(true);
+	const [isLoadingUsers, setIsLoadingUsers] = useState(true);
+
 	const getUsersData = async () => {
 		try {
 			const { data: usersData } = await api.get('/admin/getUsers')
 			setUsers(usersData)
-			setUsersDataCache(usersData)	
+			setUsersDataCache(usersData)
+
+			setIsLoadingUsers(false);	
 		} catch(error) {
 			console.log(error)
 		}
@@ -45,6 +50,8 @@ const Admin = () => {
 			const booksData = await books;
 
 			setBooksDataCache(booksData)
+
+			setIsLoadingBooks(false);
 		}
 		getBooksData()
 	}, [setBooks, books])
@@ -147,7 +154,7 @@ const Admin = () => {
 					</div>
 					<ul>
 						{books.length < 0 && <div>No Books Found!</div>}
-						{booksDataCache.length < 0 && <LoadingSmall />}
+						{isLoadingBooks && <LoadingSmall />}
 						{booksDataCache.map(value => (
 							<li key={value._id}>
 								<div className={styles.nameContainer}>{value.title}</div>
@@ -183,7 +190,7 @@ const Admin = () => {
 					</div>
 					<ul>
 						{users.length < 0 && <div>No Users Found!</div>}
-						{usersDataCache.length < 0 && <LoadingSmall />}
+						{isLoadingUsers && <LoadingSmall />}
 						{usersDataCache.map(value => (
 							<li key={value._id}>
 								<div className={styles.nameContainer}>{value.email}</div>
@@ -213,6 +220,7 @@ const Admin = () => {
 						<EditBook 
 							editData={editBookData} 
 							setIsEdit={setIsEditBook} 
+							updateBooks={setBooks}
 						/>
                     </div>
 				</div>
