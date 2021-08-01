@@ -15,11 +15,10 @@ import { LoadingBig } from "./components/Loading";
 
 import { Home, Book, User, Auth, Cart, Success, Cancel, Admin } from "./pages";
 
-
 const PrivateRoute = ({ component: Component, ...rest }) => {
-    const { isLoggedIn } = useContext(userContext);
+    const { isLoggedIn, isLoading } = useContext(userContext);
 
-    if (!isLoggedIn) {
+    if (isLoading) {
         return <LoadingBig />
     }
 
@@ -39,13 +38,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
             )
         }
     />
-    )  
+    )   
 };
 
 const AdminRoute = ({ component: Component, ...rest }) => {
-    const { isAdmin } = useContext(userContext);
-    
-    if (!isAdmin) {
+    const { isAdmin, isLoading } = useContext(userContext);
+
+    if (isLoading) {
         return <LoadingBig />
     }
 

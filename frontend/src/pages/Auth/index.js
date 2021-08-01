@@ -3,16 +3,22 @@ import { Redirect } from "react-router-dom";
 
 import { userContext } from "../../contexts/UserContext";
 
+import { LoadingBig } from "../../components/Loading";
 import Signin from "../../components/Signin";
 import Signup from "../../components/Signup";
 
 const Auth = (props) => {
     const path = props.location.pathname.replace(/\/auth\//, "");
-    const { isLoggedIn } = useContext(userContext);
+    const { isLoggedIn, isLoading } = useContext(userContext);
+
+    if (isLoading) {
+        return <LoadingBig />
+    }
 
     if (isLoggedIn) {
-        return <Redirect to="/user" />
+        return <Redirect to={props.location.state.from.pathname} />
     }
+
 
     return path === "signin" ? (
         <Signin />

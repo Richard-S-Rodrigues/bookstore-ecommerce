@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid'
 
 import api from '../../services/api'
@@ -17,21 +17,13 @@ const User = () => {
 
     const [isModal, setIsModal] = useState(false);
 
-    const history = useHistory();
-    
     useEffect(() => {
-        
-        if (!user) {
-            history.push("/auth/signin");
-            return;
-        }
-
         setEmail(user.email);
         setUsername(user.username);
 
         getOrders(user.email)
 
-    }, [user, history]);
+    }, [user]);
 
     const getOrders = async (email) => {
         try {

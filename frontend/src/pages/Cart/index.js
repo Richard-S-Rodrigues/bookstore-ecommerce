@@ -15,7 +15,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY)
 
 const Cart = () => {
     const { cart, setCart } = useContext(cartContext);
-    const { user } = useContext(userContext);
+    const { email } = useContext(userContext).user || "";
 
     const [cartData, setCartData] = useState(cart);
     const [lineItems, setLineItems] = useState([])
@@ -50,7 +50,7 @@ const Cart = () => {
     useEffect(() => {
         const getCustomer = async () => {
             try {
-                const response = await api.post('/stripe/getCustomer', { email: user.email })
+                const response = await api.post('/stripe/getCustomer', { email })
             
                 setCustomerId(response.data.customerId)
 
@@ -61,7 +61,7 @@ const Cart = () => {
 
         getCustomer()
 
-    }, [user.email])
+    }, [email])
 
     const removeCartItem = (index) => {
         const newData = [...cartData];

@@ -31,17 +31,22 @@ const UserProvider = ({ children }) => {
 	const user = JSON.parse(localStorage.getItem("userInfo"));
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [isAdmin, setIsAdmin] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const isAuthenticated = async () => {	    
 		    const data = await getUserDatabase();
 
-		    if (!data) return;
+		    if (!data) {
+		    	setIsLoading(false);
+		    	return;
+		    }
 
 		    if (!data.token) {
 		        setIsLoggedIn(false);
-		        return;
 		    }
+		    
+		    setIsLoggedIn(true);
 
 		    if (data.role === "admin") {
 		    	setIsAdmin(true);
@@ -49,7 +54,7 @@ const UserProvider = ({ children }) => {
 		    	setIsAdmin(false);
 		    }
 
-		    setIsLoggedIn(true);
+		    setIsLoading(false);
 		}
 
 		isAuthenticated();
@@ -58,7 +63,7 @@ const UserProvider = ({ children }) => {
 
 
 	return (
-		<userContext.Provider value={{ isLoggedIn, isAdmin, user }}>
+		<userContext.Provider value={{ isLoggedIn, isAdmin, isLoading, user }}>
 			{ children }
 		</userContext.Provider>
 	)
