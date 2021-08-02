@@ -1,31 +1,29 @@
-## To Do
+<h1 align="center">BookStore</h1>
 
-[] - Add a CRUD logic
-[] - Add a database for books
-[] - Add a database for each user
-[] - Each user have a database cart
+<p align="center">
+  <a href="#-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-project">Project</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-how-to-execute">How to execute</a>
+</p>
 
-## Data
+## 💻 Project
+BookStore is an e-commerce app where you can by books. The payment proccess is made with <a href="https://stripe.com">Stripe</a>,
+and the admin can add and delete books in the admin panel.
 
-### User
+## ✨ Technologies
 
--   \_id;
--   email;
--   name;
--   password;
--   orders; // An array of objects containing books ids, books prices and purchase date
+- [React](https://reactjs.org)
+- [Mongodb](https://www.mongodb.com)
+- [Nodejs](https://nodejs.org)
+- [Express](https://expressjs.com)
+- [JWT](https://www.npmjs.com/package/jsonwebtoken)
+- [Stripe](https://stripe.com)
+- [Cloudinary](https://cloudinary.com)
 
-### book
 
--   \_id;
--   price;
--   title;
--   author;
--   isbn;
--   publisher;
--   image
+## 🚀 How to execute
 
-### Cart
-
--   \_userId;
--   data; // An array of books ids
+- Clone the repository
+- Install the dependencies with `yarn`
+- Initiate the backend running `yarn dev`
+- Initiate the frontend running `yarn start`
