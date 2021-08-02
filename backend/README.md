@@ -4,15 +4,15 @@
 
 Create a `.env` file and add the following variables:
 
-ATLAS_ADMIN_PASSWORD='Mongodb admin password'
+- ATLAS_ADMIN_PASSWORD='Mongodb admin password'
 
-STRIPE_SECRET_KEY='Secret key from Stripe'
+- STRIPE_SECRET_KEY='Secret key from Stripe'
 
-JWT_ACCESS_SECRET='Jwt token access secret'
-JWT_REFRESH_SECRET='Jwt token refresh secret'
+- JWT_ACCESS_SECRET='Jwt token access secret'
+- JWT_REFRESH_SECRET='Jwt token refresh secret'
 
-ACCESS_TOKEN_LIFE='Access token validity time'
-REFRESH_TOKEN_LIFE='Refresh token validity time'
+- CLOUDINARY_API_KEY
+- CLOUDINARY_API_SECRET
 
 	
 
